@@ -6,22 +6,21 @@
 #    By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 15:05:01 by hthiessa          #+#    #+#              #
-#    Updated: 2019/01/10 15:52:39 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/01/10 15:59:36 by hthiessa         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = fillit
 
-SRC_NAME =
+SRC = main.c
 
 CFLAGS += -Werror -Wall -Wextra
 
 INCL_PATH = . libft
 CPPFLAGS += $(INCL_PATH:%=-I%) -MMD -MP
 
-SRC = $(SRC_NAME)
-OBJ = $(SRC_NAME:.c=.o)
-DEP = $(SRC_NAME:.c=.d)
+OBJ = $(SRC:.c=.o)
+DEP = $(SRC:.c=.d)
 
 .PHONY: all clean fclean re
 
