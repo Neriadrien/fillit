@@ -6,13 +6,13 @@
 #    By: hbode <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/12 19:31:39 by hbode             #+#    #+#              #
-#    Updated: 2018/12/14 13:51:03 by hbode            ###   ########.fr        #
+#    Updated: 2019/01/10 15:25:13 by hthiessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-HEADER = libft.h
-FLAGS = -Wall -Wextra -Werror
+CFLAGS += -Wall -Wextra -Werror
+CPPFLAGS += -I. -MMD -MP
 FILES = ft_atoi \
 	   ft_bzero \
 	   ft_factorial \
@@ -90,16 +90,19 @@ OBJS = $(patsubst %,%.o,$(FILES))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEADER)
-	ar rcs $(NAME) $(OBJS)
+$(NAME): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $?
 
-@%.o : %.c
-	gcc $(FLAGS) -c $(SRCS) -I.
+%.o : %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
 
 clean:
-	/bin/rm -f $(OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	$(RM) $(NAME)
 
-re: fclean all
+re: fclean
+	$(MAKE)
+
+-include $(SRCS:.c=.d)
