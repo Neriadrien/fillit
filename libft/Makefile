@@ -6,13 +6,14 @@
 #    By: hbode <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/12 19:31:39 by hbode             #+#    #+#              #
-#    Updated: 2019/01/10 15:25:13 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/01/10 17:08:16 by hthiessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -I. -MMD -MP
+ARFLAGS = rcs
 FILES = ft_atoi \
 	   ft_bzero \
 	   ft_factorial \
@@ -85,19 +86,17 @@ FILES = ft_atoi \
 	   ft_tolower \
 	   ft_toupper \
 
-SRCS = $(patsubst %,%.c,$(FILES))
-OBJS = $(patsubst %,%.o,$(FILES))
+SRC = $(FILES:%=%.c)
+OBJ = $(FILES:%=%.o)
+DEP = $(FILES:%=%.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $?
 
-%.o : %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
-
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
@@ -105,4 +104,4 @@ fclean: clean
 re: fclean
 	$(MAKE)
 
--include $(SRCS:.c=.d)
+-include $(DEP)
