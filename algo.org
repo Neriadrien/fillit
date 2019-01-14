@@ -1,0 +1,12 @@
+* Structure de la grille
+** une matrice de char
+** ?
+* Historique des positions des pieces
+** Function stack (recursif/backtracking) au max 26 fois
+** Stack
+* Historique de la grille
+** meilleur grille et grille actuelle modifie en fonction de l'H des pieces
+Copie que quand une nouvelle solution est trouvee
+
+** ~liste de grille~
+Copie a chaque nouvelle piece
