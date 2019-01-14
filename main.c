@@ -6,11 +6,10 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 15:57:31 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/01/14 16:24:40 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/01/14 18:11:41 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <string.h>
 #include "libft/libft.h"
 
 typedef char **t_tetri;
@@ -85,14 +84,21 @@ t_grid	*resolve(t_tetri tetriminos[])
 t_grid	resolve_rec(t_tetri tetriminos[], t_grid *grid, size_t n,
 					size_t max_tetri)
 {
+	(void)tetriminos;
+	(void)grid;
+	(void)n;
+	(void)max_tetri;
+	/*
 	if (n == max_tetri)
 	{
 		//check si c'est plus petit
 	}
 	else
 	{
-		
+		//TODO
 	}
+	*/
+	return (NULL);
 }
 
 void	print_grid(t_grid *grid)
@@ -112,7 +118,7 @@ int		main(int argc, char *argv[])
 	{
 		tetriminos = parse_file(argv[1]);
 		if (!(grid = resolve(tetriminos)))
-			exit (1); //TODO
+			return (1); //TODO
 		print_grid(grid);
 	}
 	return (0);
