@@ -10,3 +10,41 @@ Copie que quand une nouvelle solution est trouvee
 
 ** ~liste de grille~
 Copie a chaque nouvelle piece
+
+* algo
+** Parsing
+** calcul de la taile de la grille min possible (cote = sqrt(nb_tetri *4))
+** creation de la grille maximum possible (e.g. 4 x nb_tetri, 4 x nb_tetri)
+** pour chaque tetrimino : ajout d'une structure dans un tableau de taille nb_tetri
+*** grille de reference du tetrimino (meme taille que la grille, en haut a gauche)
+*** matrice pour le cache
+*** hauteur et largeur
+*** position dans la grille (0, 0 par defaut)
+** tant que la fonction retourne, relance avec une taille de grille plus grande
+*** recursivite a partir du premier tetri
+**** si on a mis tout les tetri la solution est trouvee
+***** on affiche la grille de solution
+***** on free tout
+***** on exit
+**** si on a tout teste, on sort de la fonction pour reessayer avec une grille plus grande
+**** pour toutes les positions possible du tetri (i.e. 0 <= x <= colonne_max - largeur et 0 <= y <= ligne_max - hauteur)
+***** si le tetri est dans le cache on l'utilise (si tetri.cache[x][y] != 0)
+***** sinon on le cree et on le rajoute dans le cache
+Si le tetrimino ne sort pas du long (i.e est tjs dans les 4 lignes) alors c'est facile, juste faire un >>
+Sinon il faut aussi le rajouter dans le long suivant
+****** bitwise right shift x pour chaque colonne
+****** si ligne % 4 <= 4 - tetri.hauteur
+tetri.long[ligne / 4] = original >> (ligne % 4) * 16
+******* bitwise right shift y * 16
+****** sinon
+tetri.long[ligne / 4] = original >> (ligne % 4) * 16
+tetri.long[(ligne + 1) / 4] = original << (4 - (ligne % 4)) * 16
+******* bitwise right shift y * 16
+***** si il peut etre pose (e.g. si grille & tetri == 0)
+****** on le pose (e.g. grille = grille ^ tetri)
+****** on met a jour la position
+****** TODO optionel: on verifie qu'il est possible de poser les pieces suivantes
+******* On regarde si le nombre de cellules restantes moins le nb de cell mortes permet de mettre les dernieres pieces
+****** on appele la fonction recurive avec le tetri suivant
+***** on enleve le tetri pose (e.g. grille = grille ^ tetri)
+**** on sort de la fonction
