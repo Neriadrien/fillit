@@ -131,10 +131,10 @@ u64[nb_column]
 tetri.cache[x] = tetri.cache[0] >> x
 ***** s'il peut être posé (i.e. si grille & tetri == 0)
 ****** on le pose (i.e. grille ^= tetri)
-****** on met a jour la position
 ****** TODO optionel: on verifie qu'il est possible de poser les pieces suivantes
 ******* On regarde si le nombre de cellules restantes moins le nb de cell mortes permet de mettre les dernieres pieces
 ******* Le plus efficace c'est de compter le nombre de cellules vides qui sont dans un ilôt de moins de 3 cases
 ****** on appele la fonction recurive avec le tetri suivant
-***** on enleve le tetri pose (i.e. grille ^= tetri)
+****** on enleve le tetri pose (i.e. grille ^= tetri)
+***** on met a jour la position
 **** on sort de la fonction
