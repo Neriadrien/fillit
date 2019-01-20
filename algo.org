@@ -1,50 +1,140 @@
-* Structure de la grille
-** une matrice de char
-** ?
-* Historique des positions des pieces
-** Function stack (recursif/backtracking) au max 26 fois
-** Stack
-* Historique de la grille
-** meilleur grille et grille actuelle modifie en fonction de l'H des pieces
-Copie que quand une nouvelle solution est trouvee
+* Structures
+** Grille
+la grille est toujours enregistrée dans 4 long int (64 bits ou 8 octects)
+1 long int = 4 lignes de la grille
+1/4 de long int (short int) = 1 ligne
+Dans 1 short int il y a 16 bits
+Chaque bit = 1 colonne
+Le nombre max de colonnes = 13 (nombre max de tetriminos + perte de 2 cases par tetrimino)
 
-** ~liste de grille~
-Copie a chaque nouvelle piece
+La grille resemble a ça quand il n'y a qu'un seul tetrimino :
 
-* algo
-** Parsing
+les # sont les cases non utilisées (le bit est a 0)
+les * sont les cases où le bit est a 1
+les _ dans la marge représentent la séparation entre les long int
+
+   | 0 1 2 3 4 5 6 7 8 9 a b c d e f
+------------------------------------
+0  | * 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+1  | * * 0 0 0 0 0 0 0 0 0 0 0 # # #
+2  | 0 * 0 0 0 0 0 0 0 0 0 0 0 # # #
+3 _| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+4  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+5  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+6  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+7 _| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+8  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+9  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+10 | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+11_| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+12 | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+13 | # # # # # # # # # # # # # # # #
+14 | # # # # # # # # # # # # # # # #
+15 | # # # # # # # # # # # # # # # #
+
+
+La grille est toujours dans 4 long int même si on essaye de ne poser les pieces que dans un espace restreint
+Exemple de grille avec limite :
+Les | et _ représentent la limite
+
+   | 0 1 2 3 4 5 6 7 8 9 a b c d e f
+------------------------------------
+0  | * 0 0 0 0|0 0 0 0 0 0 0 0 # # #
+1  | * * 0 0 0|0 0 0 0 0 0 0 0 # # #
+2  | 0 * 0 0 0|0 0 0 0 0 0 0 0 # # #
+3 _| 0 0 0 0 0|0 0 0 0 0 0 0 0 # # #
+4  |_0_0_0_0_0|0 0 0 0 0 0 0 0 # # #
+5  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+6  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+7 _| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+8  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+9  | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+10 | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+11_| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+12 | 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+13 | # # # # # # # # # # # # # # # #
+14 | # # # # # # # # # # # # # # # #
+15 | # # # # # # # # # # # # # # # #
+
+** Liste de tetriminos
+La liste de tetrimimos est composée de pointeurs ou d'identifiant qui indique le type de tetrimino
+Elle est accompagnée de la liste des type de tetriminos, cette structure contient la position (x,y) de chacun des 4 points du tetrimino
+
+#+BEGIN_SRC ditaa :file tetri_list.png
+  +--------+--------+--------+
+  | Type 1 | Type 1 | Type 2 |
+  +----\---+---/----+----\---+
+		\     /           \
+		 \   /             \
+  +-------\-/------+    +---\------------+
+  |  Type 1        |    |  Type 2        |
+  |+--------------+|    |+--------------+|
+  || pos0 {x, y}  ||    || pos0 {x, y}  ||
+  |+--------------+|    |+--------------+|
+  || pos1 {x, y}  ||    || pos1 {x, y}  ||
+  |+--------------+|    |+--------------+|
+  || pos2 {x, y}  ||    || pos2 {x, y}  ||
+  |+--------------+|    |+--------------+|
+  || pos3 {x, y}  ||    || pos3 {x, y}  ||
+  |+--------------+|    |+--------------+|
+  +----------------+    +----------------+
+#+END_SRC
+
+** Le Cache
+Le cache contient les positions précalculées de chaque TYPE de tetriminos
+C-à-d chaque long int correspondant a la position (x, 0), x compris entre 0 et (13 - largeur du tetri)
+l'axe y n'est pas modifié (il suffit de passer au short int suivant)
+
+   | 0 1 2 3 4 5 6 7 8 9 a b c d e f
+------------------------------------
+0  | * 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+1  | * * 0 0 0 0 0 0 0 0 0 0 0 # # #
+2  | 0 * 0 0 0 0 0 0 0 0 0 0 0 # # #
+3 _| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+
+   | 0 1 2 3 4 5 6 7 8 9 a b c d e f
+------------------------------------
+0  | 0 * 0 0 0 0 0 0 0 0 0 0 0 # # #
+1  | 0 * * 0 0 0 0 0 0 0 0 0 0 # # #
+2  | 0 0 * 0 0 0 0 0 0 0 0 0 0 # # #
+3 _| 0 0 0 0 0 0 0 0 0 0 0 0 0 # # #
+
+etc.
+
+Pour cet exemple il n'y aura que 12 entrées dans le cache (le tetri fait 2 de largeur)
+
+* Parsing
+* Algo
 ** calcul de la taile de la grille min possible (cote = sqrt(nb_tetri *4))
-** creation de la grille maximum possible (e.g. 4 x nb_tetri, 4 x nb_tetri)
+** creation de la grille maximum possible
+dans le pire des cas 1 tetri = 6 cases donc sqrt(6 x nb_tetri))
+en binaire -> u16[16] <=> u64[4]
 ** pour chaque tetrimino : ajout d'une structure dans un tableau de taille nb_tetri
-*** grille de reference du tetrimino (meme taille que la grille, en haut a gauche)
-*** matrice pour le cache
-*** hauteur et largeur
-*** position dans la grille (0, 0 par defaut)
+*** pointeur vers le type (avec position de chaque points, largeur, hauteur et cache)
+*** position (x, y) dans la grille actuelle
+*** ancienne structure
+**** grille de reference du tetrimino (meme taille que la grille, en haut a gauche)
+**** matrice pour le cache
+u64[nb_column]
+**** hauteur et largeur
+**** position dans la grille (0, 0 par defaut)
 ** tant que la fonction retourne, relance avec une taille de grille plus grande
 *** recursivite a partir du premier tetri
 **** si on a mis tout les tetri la solution est trouvee
 ***** on affiche la grille de solution
 ***** on free tout
 ***** on exit
-**** si on a tout teste, on sort de la fonction pour reessayer avec une grille plus grande
+**** si on a tout testé, on sort de la fonction pour reessayer avec une grille plus grande
 **** pour toutes les positions possible du tetri (i.e. 0 <= x <= colonne_max - largeur et 0 <= y <= ligne_max - hauteur)
-***** si le tetri est dans le cache on l'utilise (si tetri.cache[x][y] != 0)
-***** sinon on le cree et on le rajoute dans le cache
-Si le tetrimino ne sort pas du long (i.e est tjs dans les 4 lignes) alors c'est facile, juste faire un >>
-Sinon il faut aussi le rajouter dans le long suivant
-****** bitwise right shift x pour chaque colonne
-****** si ligne % 4 <= 4 - tetri.hauteur
-tetri.long[ligne / 4] = original >> (ligne % 4) * 16
-******* bitwise right shift y * 16
-****** sinon
-tetri.long[ligne / 4] = original >> (ligne % 4) * 16
-tetri.long[(ligne + 1) / 4] = original << (4 - (ligne % 4)) * 16
-******* bitwise right shift y * 16
-***** si il peut etre pose (e.g. si grille & tetri == 0)
-****** on le pose (e.g. grille = grille ^ tetri)
+***** OPTIONEL si le tetri est dans le cache on l'utilise (si tetri.cache[x] != 0)
+***** OPTIONEL sinon on le créé et on le rajoute dans le cache
+tetri.cache[x] = tetri.cache[0] >> x
+***** s'il peut être posé (i.e. si grille & tetri == 0)
+****** on le pose (i.e. grille ^= tetri)
 ****** on met a jour la position
 ****** TODO optionel: on verifie qu'il est possible de poser les pieces suivantes
 ******* On regarde si le nombre de cellules restantes moins le nb de cell mortes permet de mettre les dernieres pieces
+******* Le plus efficace c'est de compter le nombre de cellules vides qui sont dans un ilôt de moins de 3 cases
 ****** on appele la fonction recurive avec le tetri suivant
-***** on enleve le tetri pose (e.g. grille = grille ^ tetri)
+***** on enleve le tetri pose (i.e. grille ^= tetri)
 **** on sort de la fonction
