@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+LIB_NAME = libft.a
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -I. -MMD -MP
 ARFLAGS = rcs
@@ -90,16 +90,16 @@ SRC = $(FILES:%=%.c)
 OBJ = $(FILES:%=%.o)
 DEP = $(FILES:%=%.d)
 
-all: $(NAME)
+all: $(LIB_NAME)
 
-$(NAME): $(OBJ)
+$(LIB_NAME): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $?
 
 clean:
 	$(RM) $(OBJ)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(LIB_NAME)
 
 re: fclean
 	$(MAKE)

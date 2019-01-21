@@ -15,6 +15,12 @@
 #include "solve.h"
 #include "libft/libft.h"
 
+
+
+#include <stdio.h>
+
+
+
 int		sqrt_aprox(int nb)
 {
 	int	i;
@@ -94,33 +100,61 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	//TODO Error
 }
 
+void	print_tab_short_int(int id, short int*tab)
+{
+	for (int index = 0; index < 16; index++)
+	{
+		printf("[%d] %3d|"SHORT_TO_BINARY_PATTERN"\n",
+			   id, index, SHORT_TO_BINARY(tab[index]));
+	}
+}
+
 void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 							int nb_tetri, int actual_width)
 {
 	t_tetri		*tetri;
 	long int	*grid_for_cmp;
+	long int	tetri_actual;
+	int			bool_same_type;
 
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
 	tetri = &tetriminos[index];
 	tetri->position.y = 0;
-	while (tetri->position.y <= actual_width - tetri->type->height)
+	int max_y = actual_width - tetri->type->height;
+	int max_x = actual_width - tetri->type->width;
+	grid_for_cmp = (long*)grid;
+	if (index > 0 && tetriminos[index - 1].type == tetri->type)
 	{
-		grid_for_cmp = (long*)(grid + tetri->position.y);
-		tetri->position.x = 0;
-		while (tetri->position.x <= actual_width - tetri->type->width)
+		tetri->position.y = tetriminos[index - 1].position.y;
+		tetri->position.x = tetriminos[index - 1].position.x + 1;
+		grid_for_cmp = (long*)((short int*)grid_for_cmp + tetri->position.y);;
+		bool_same_type = 1;
+	}
+	else
+		bool_same_type = 0;
+	while (tetri->position.y <= max_y)
+	{
+		tetri_actual = tetri->type->mask;
+		if (!bool_same_type)
+			tetri->position.x = 0;
+		else
 		{
-			if (tetri->type->cache[tetri->position.x] == 0)
-				tetri->type->cache[tetri->position.x] =
-					tetri->type->cache[0] >> tetri->position.x;
-			if ((*grid_for_cmp & tetri->type->cache[tetri->position.x]) == 0)
+			tetri_actual >>= tetri->position.x;
+			bool_same_type = 0;
+		}
+		while (tetri->position.x <= max_x)
+		{
+			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
-				*grid_for_cmp ^= tetri->type->cache[tetri->position.x];
+				*grid_for_cmp ^= tetri_actual;
 				solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri, actual_width);
-				*grid_for_cmp ^= tetri->type->cache[tetri->position.x];
+				*grid_for_cmp ^= tetri_actual;
 			}
+			tetri_actual >>= 1;
 			tetri->position.x++;
 		}
+		grid_for_cmp = (long*)((short int*)grid_for_cmp + 1);
 		tetri->position.y++;
 	}
 }

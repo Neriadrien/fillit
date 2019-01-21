@@ -26,6 +26,9 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0') 
 
+# define SHORT_TO_BINARY_PATTERN BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN
+# define SHORT_TO_BINARY(short_int) BYTE_TO_BINARY(short_int >> 8), BYTE_TO_BINARY(short_int)
+
 # define LONG_TO_BINARY_PATTERN BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN""BYTE_TO_BINARY_PATTERN
 # define LONG_TO_BINARY(long_byte) BYTE_TO_BINARY(long_byte >> 56), BYTE_TO_BINARY(long_byte >> 48), BYTE_TO_BINARY(long_byte >> 40), BYTE_TO_BINARY(long_byte >> 32), BYTE_TO_BINARY(long_byte >> 24), BYTE_TO_BINARY(long_byte >> 16), BYTE_TO_BINARY(long_byte >> 8), BYTE_TO_BINARY(long_byte)
 
@@ -40,15 +43,15 @@ typedef struct	s_tetritype
 	t_position	points[4];
 	int			height;
 	int			width;
-	long int	cache[MAX_WIDTH];
-
+	long int	mask;
 }				t_tetritype;
+
 typedef struct	s_tetri
 {
 	t_tetritype	*type;
 	t_position	position;
 }				t_tetri;
-typedef short int	t_grid[16];
 
+typedef short int	t_grid[16];
 
 #endif

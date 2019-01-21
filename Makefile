@@ -6,7 +6,7 @@
 #    By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 15:05:01 by hthiessa          #+#    #+#              #
-#    Updated: 2019/01/21 11:13:08 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/01/10 15:59:36 by hthiessa         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,7 +14,7 @@ NAME = fillit
 
 SRC = main.c solve.c
 
-CFLAGS += -Werror -Wall -Wextra
+CFLAGS ?= -Werror -Wall -Wextra
 
 INCL_PATH = . libft
 CPPFLAGS += $(INCL_PATH:%=-I%) -MMD -MP
