@@ -1,7 +1,7 @@
 #ifndef UTILS_H_
 # define UTILS_H_
 
-# define MAX_WIDTH
+# define MAX_WIDTH 13
 
 typedef struct	s_position
 {

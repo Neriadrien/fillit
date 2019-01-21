@@ -105,7 +105,7 @@ Pour cet exemple il n'y aura que 12 entrées dans le cache (le tetri fait 2 de l
 
 * Parsing
 * Algo
-** calcul de la taile de la grille min possible (cote = sqrt(nb_tetri *4))
+** calcul de la taile de la grille min possible (cote = sqrt(nb_tetri * 4))
 ** creation de la grille maximum possible
 dans le pire des cas 1 tetri = 6 cases donc sqrt(6 x nb_tetri))
 en binaire -> u16[16] <=> u64[4]
@@ -125,7 +125,7 @@ u64[nb_column]
 ***** on free tout
 ***** on exit
 **** si on a tout testé, on sort de la fonction pour reessayer avec une grille plus grande
-**** pour toutes les positions possible du tetri (i.e. 0 <= x <= colonne_max - largeur et 0 <= y <= ligne_max - hauteur)
+**** pour toutes les positions possible du tetri (i.e. 0 <= x <= colonne_max actuel - largeur et 0 <= y <= ligne_max actuel - hauteur)
 ***** OPTIONEL si le tetri est dans le cache on l'utilise (si tetri.cache[x] != 0)
 ***** OPTIONEL sinon on le créé et on le rajoute dans le cache
 tetri.cache[x] = tetri.cache[0] >> x
