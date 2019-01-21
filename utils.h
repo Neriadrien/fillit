@@ -44,6 +44,7 @@ typedef struct	s_tetritype
 	int			height;
 	int			width;
 	long int	mask;
+	t_position	*last_position;
 }				t_tetritype;
 
 typedef struct	s_tetri
