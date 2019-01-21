@@ -1,19 +1,23 @@
-#ifndef SOLVE_H_
-# define SOLVE_H_
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   solve.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/01/21 17:54:32 by hthiessa          #+#    #+#             */
+/*   Updated: 2019/01/21 17:55:51 by hthiessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SOLVE_H
+# define SOLVE_H
 
 # include "utils.h"
 
-typedef struct	s_tetri
-{
-	t_tetritype	*type;
-	t_position	position;
-}				t_tetri;
-typedef short int t_grid[16];
-
-void	print_and_exit(t_tetri *tetriminos_to_free);
+void	print_and_exit(t_tetri *tetriminos, int nb_tetri, int actual_width);
 void	solve_and_print(t_tetri *tetriminos, int nb_tetri);
 void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 							int nb_tetri, int actual_width);
-
 
 #endif
