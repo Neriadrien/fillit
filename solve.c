@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 15:30:34 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:47:05 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp,
 		tetri->position.y = tetri->type->last_position->y;
 		tetri->position.x = tetri->type->last_position->x + 1;
 		*tetri_actual = tetri->type->mask >> tetri->position.x;
-		*grid_for_cmp = (long*)((short int *)grid + tetri->position.y);;
+		*grid_for_cmp = (long*)(&grid[tetri->position.y]);;
 	}
 	else
 	{
@@ -95,8 +95,8 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 		}
 		tetri_actual = tetri->type->mask;
 		tetri->position.x = 0;
-		grid_for_cmp = (long*)((short int *)grid_for_cmp + 1);
 		tetri->position.y++;
+		grid_for_cmp = (long*)(&grid[tetri->position.y]);
 	}
 	tetri->type->last_position = NULL;
 }
