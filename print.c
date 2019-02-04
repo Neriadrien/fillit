@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:00:41 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:29:51 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 16:45:41 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,4 @@ void	print_and_exit(t_tetri *tetriminos, int nb_tetri, int actual_width)
 	print_grid(printable_grid, actual_width);
 	//free
 	exit(0);
-}
-
-void	print_tab_short_int(int id, short int*tab)
-{
-	for (int index = 0; index < 16; index++)
-	{
-		printf("[%d] %3d|"SHORT_TO_BINARY_PATTERN"\n",
-			   id, index, SHORT_TO_BINARY(tab[index]));
-	}
 }
