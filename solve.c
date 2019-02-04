@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:29:25 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 16:32:17 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	}
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
 	exit(1);
-	//TODO Error
 }
+
+/*
+** TODO Error apres le exit
+*/
 
 void	start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp,
 						long int *tetri_actual)
