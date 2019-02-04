@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:00:41 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 15:07:45 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:59:01 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include "print.h"
 #include "libft.h"
 
-
 #include <stdio.h>
-
 
 void	print_grid(char *grid[], int width)
 {
@@ -30,8 +28,7 @@ void	print_grid(char *grid[], int width)
 	}
 }
 
-void	print_and_exit(t_tetri *tetriminos, int nb_tetri,
-					   int actual_width)
+void	print_and_exit(t_tetri *tetriminos, int nb_tetri, int actual_width)
 {
 	char	**printable_grid;
 	int		i;
