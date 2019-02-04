@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 14:25:52 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:15:07 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 #include "solve.h"
 #include "utils.h"
-#include "libft/libft.h"
-
-
-
-#include <stdio.h>
-
-
+#include "libft.h"
+#include "print.h"
 
 int		sqrt_aprox(int nb)
 {
@@ -34,54 +29,6 @@ int		sqrt_aprox(int nb)
 		i++;
 	}
 	return (i);
-}
-
-void	print_grid(char *grid[], int width)
-{
-	int i;
-
-	i = 0;
-	while (i < width)
-	{
-		ft_putstr(grid[i]);
-		i++;
-	}
-}
-
-void	print_and_exit(t_tetri *tetriminos, int nb_tetri,
-					   int actual_width)
-{
-	char	**printable_grid;
-	int		i;
-	int		j;
-
-	if (!(printable_grid = malloc(actual_width * sizeof(*printable_grid))))
-		exit(1); // TODO free
-	i = 0;
-	while (i < actual_width)
-	{
-		if (!(printable_grid[i] = ft_strnew(actual_width + 1)))
-			exit (1); // TODO free
-		ft_memset(printable_grid[i], '.', actual_width);
-		printable_grid[i][actual_width] = '\n';
-		i++;
-	}
-	i = 0;
-	while (i < nb_tetri)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			printable_grid[tetriminos[i].type->points[j].y + tetriminos[i].position.y
-				][tetriminos[i].type->points[j].x + tetriminos[i].position.x
-					] = 'A' + i;
-			j++;
-		}
-		i++;
-	}
-	print_grid(printable_grid, actual_width);
-	//free
-	exit(0);
 }
 
 void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
@@ -99,70 +46,6 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
 	exit(1);
 	//TODO Error
-}
-
-void	print_tab_short_int(int id, short int*tab)
-{
-	for (int index = 0; index < 16; index++)
-	{
-		printf("[%d] %3d|"SHORT_TO_BINARY_PATTERN"\n",
-			   id, index, SHORT_TO_BINARY(tab[index]));
-	}
-}
-
-int		island(int x, int y, short *grid,
-			   int actual_width, short *visited_cells)
-{
-	int					nb_empty_cells;
-	static t_position	offsets[4] = {{.x = -1, .y = 0}, {.x = 1, .y = 0},
-									  {.x = 0, .y = -1}, {.x = 0, .y = 1}};
-	int					direction;
-
-	if (x < 0 || x >= actual_width || y < 0 || y >= actual_width
-		|| visited_cells[y] & (1 << x) || grid[y] & (1 << x))
-		return 0;
-	visited_cells[y] ^= 1 << x;
-	nb_empty_cells = 1;
-	direction = 0;
-	while (direction < 4)
-	{
-		nb_empty_cells += island(x + offsets[direction].x, y + offsets[direction].y, grid,
-								actual_width, visited_cells);
-		if (nb_empty_cells > 3)
-			return (nb_empty_cells);
-		direction++;
-	}
-	return (nb_empty_cells);
-}
-
-int		enougth_cells(int index, t_tetri *tetri, short *grid,
-					  int nb_tetri, int actual_width, int *dead_cells)
-{
-	int		island_size;
-	t_grid	visited_cells;
-	int		point;
-	int nb_cells = actual_width * actual_width;
-	int required_free_cells = (nb_tetri - (index + 1)) * 4;
-
-	if (required_free_cells - (index + 1) * 6 > 0)
-		return (1);
-	ft_memset(visited_cells, 0, sizeof(t_grid));
-	point = 0;
-	while (point < 4)
-	{
-		island_size = island(tetri->position.x + tetri->type->points[point].x,
-							 tetri->position.y + tetri->type->points[point].y,
-							 grid, actual_width, (short *)visited_cells);
-		if (island_size <= 3)
-		{
-			*dead_cells += island_size;
-			if ((nb_cells - *dead_cells) < required_free_cells)
-				return (0);
-		}
-		point++;
-	}
-	return (1);
-	//return ((nb_cells - *dead_cells) >= required_free_cells);
 }
 
 int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp, long int *tetri_actual)

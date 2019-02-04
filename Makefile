@@ -6,13 +6,13 @@
 #    By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 15:05:01 by hthiessa          #+#    #+#              #
-#    Updated: 2019/01/10 15:59:36 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/02/04 15:07:27 by hthiessa         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = fillit
 
-SRC = main.c solve.c
+SRC = main.c solve.c print.c island.c
 
 CFLAGS ?= -Werror -Wall -Wextra
 
