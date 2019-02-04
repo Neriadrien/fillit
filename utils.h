@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:56:08 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:46:03 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 16:58:06 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 typedef struct	s_position
 {
-	int			x;
-	int			y;
+	int	x;
+	int	y;
 }				t_position;
 
 typedef struct	s_tetritype
