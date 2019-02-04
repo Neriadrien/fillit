@@ -165,12 +165,13 @@ int		enougth_cells(int index, t_tetri *tetri, short *grid,
 	//return ((nb_cells - *dead_cells) >= required_free_cells);
 }
 
-int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp)
+int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp, long int *tetri_actual)
 {
 	if (tetri->type->last_position)
 	{
 		tetri->position.y = tetri->type->last_position->y;
 		tetri->position.x = tetri->type->last_position->x + 1;
+		*tetri_actual = tetri->type->mask >> tetri->position.x;
 		*grid_for_cmp = (long*)(grid + tetri->position.y);;
 		return (1);
 	}
@@ -194,8 +195,7 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
 	tetri = &tetriminos[index];
-	bool_same_type = start_position(tetri, grid, &grid_for_cmp);
-	tetri_actual = tetri->type->mask;
+	bool_same_type = start_position(tetri, grid, &grid_for_cmp, &tetri_actual);
 	while (tetri->position.y <= actual_width - tetri->type->height)
 	{
 		if (!bool_same_type)
@@ -203,11 +203,7 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 			tetri_actual = tetri->type->mask;
 			tetri->position.x = 0;
 		}
-		else
-		{
-			tetri_actual >>= tetri->position.x;
-			bool_same_type = 0;
-		}
+		bool_same_type = 0;
 		while (tetri->position.x <= actual_width - tetri->type->width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
