@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:32 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:15:58 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 16:27:01 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 typedef struct	s_solve_data
 {
-	t_tetri	*tetriminos;
+	t_tetri	*ltetris;
 	t_grid	*grid;
 	int		nb_tetri;
-	int		actual_width;
+	int		size;
 }				t_solve_data;
 
 void			print_and_exit(t_tetri *tetriminos, int nb_tetri,
