@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/01/21 17:59:10 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 14:17:01 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,24 @@ int		enougth_cells(int index, t_tetri *tetri, short *grid,
 	//return ((nb_cells - *dead_cells) >= required_free_cells);
 }
 
+int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp)
+{
+	if (tetri->type->last_position)
+	{
+		tetri->position.y = tetri->type->last_position->y;
+		tetri->position.x = tetri->type->last_position->x + 1;
+		*grid_for_cmp = (long*)(grid + tetri->position.y);;
+		return (1);
+	}
+	else
+	{
+		tetri->position.y = 0;
+		tetri->position.x = 0;
+		*grid_for_cmp = (long*)grid;
+		return (0);
+	}
+}
+
 void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 							int nb_tetri, int actual_width, int dead_cells)
 {
@@ -178,23 +196,9 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
 	tetri = &tetriminos[index];
-	tetri->position.y = 0;
 	int max_y = actual_width - tetri->type->height;
 	int max_x = actual_width - tetri->type->width;
-	grid_for_cmp = (long*)grid;
-	if (tetri->type->last_position)
-	{
-		tetri->position.y = tetri->type->last_position->y;
-		tetri->position.x = tetri->type->last_position->x + 1;
-		grid_for_cmp = (long*)((short int*)grid_for_cmp + tetri->position.y);;
-		bool_same_type = 1;
-	}
-	else
-	{
-		tetri->position.y = 0;
-		tetri->position.x = 0;
-		bool_same_type = 0;
-	}
+	bool_same_type = start_position(tetri, grid, &grid_for_cmp);
 	tetri_actual = tetri->type->mask;
 	while (tetri->position.y <= max_y)
 	{
