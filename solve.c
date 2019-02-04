@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 14:17:01 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 14:25:52 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	actual_width = sqrt_aprox(nb_tetri * 4);
 	while (actual_width <= MAX_WIDTH)
 	{
-		solve_and_print_rec(0, tetriminos, grid, nb_tetri, actual_width, 0);
+		solve_and_print_rec(0, tetriminos, grid, nb_tetri, actual_width);
 		actual_width++;
 	}
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
@@ -184,23 +184,19 @@ int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp)
 }
 
 void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
-							int nb_tetri, int actual_width, int dead_cells)
+							int nb_tetri, int actual_width)
 {
 	t_tetri		*tetri;
 	long int	*grid_for_cmp;
 	long int	tetri_actual;
 	int			bool_same_type;
 
-	int		tmp_dead_cells;
-
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
 	tetri = &tetriminos[index];
-	int max_y = actual_width - tetri->type->height;
-	int max_x = actual_width - tetri->type->width;
 	bool_same_type = start_position(tetri, grid, &grid_for_cmp);
 	tetri_actual = tetri->type->mask;
-	while (tetri->position.y <= max_y)
+	while (tetri->position.y <= actual_width - tetri->type->height)
 	{
 		if (!bool_same_type)
 		{
@@ -212,18 +208,14 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 			tetri_actual >>= tetri->position.x;
 			bool_same_type = 0;
 		}
-		while (tetri->position.x <= max_x)
+		while (tetri->position.x <= actual_width - tetri->type->width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
 				*grid_for_cmp ^= tetri_actual;
-				tmp_dead_cells = dead_cells;
-				/* if (enougth_cells(index, tetri, grid, nb_tetri, actual_width, &tmp_dead_cells)) */
-				/* { */
-					tetri->type->last_position = &tetri->position;
-					solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri,
-										actual_width, tmp_dead_cells);
-				/* } */
+				tetri->type->last_position = &tetri->position;
+				solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri,
+									actual_width);
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
