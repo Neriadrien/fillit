@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 15:15:07 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:30:34 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,22 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	//TODO Error
 }
 
-int		start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp, long int *tetri_actual)
+void	start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp,
+					   long int *tetri_actual)
 {
 	if (tetri->type->last_position)
 	{
 		tetri->position.y = tetri->type->last_position->y;
 		tetri->position.x = tetri->type->last_position->x + 1;
 		*tetri_actual = tetri->type->mask >> tetri->position.x;
-		*grid_for_cmp = (long*)(grid + tetri->position.y);;
-		return (1);
+		*grid_for_cmp = (long*)((short int *)grid + tetri->position.y);;
 	}
 	else
 	{
 		tetri->position.y = 0;
 		tetri->position.x = 0;
+		*tetri_actual = tetri->type->mask;
 		*grid_for_cmp = (long*)grid;
-		return (0);
 	}
 }
 
@@ -73,20 +73,13 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 	t_tetri		*tetri;
 	long int	*grid_for_cmp;
 	long int	tetri_actual;
-	int			bool_same_type;
 
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
 	tetri = &tetriminos[index];
-	bool_same_type = start_position(tetri, grid, &grid_for_cmp, &tetri_actual);
+	start_position(tetri, grid, &grid_for_cmp, &tetri_actual);
 	while (tetri->position.y <= actual_width - tetri->type->height)
 	{
-		if (!bool_same_type)
-		{
-			tetri_actual = tetri->type->mask;
-			tetri->position.x = 0;
-		}
-		bool_same_type = 0;
 		while (tetri->position.x <= actual_width - tetri->type->width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
@@ -100,7 +93,9 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 			tetri_actual >>= 1;
 			tetri->position.x++;
 		}
-		grid_for_cmp = (long*)((short int*)grid_for_cmp + 1);
+		tetri_actual = tetri->type->mask;
+		tetri->position.x = 0;
+		grid_for_cmp = (long*)((short int *)grid_for_cmp + 1);
 		tetri->position.y++;
 	}
 	tetri->type->last_position = NULL;
