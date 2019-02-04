@@ -214,12 +214,12 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 			{
 				*grid_for_cmp ^= tetri_actual;
 				tmp_dead_cells = dead_cells;
-				if (enougth_cells(index, tetri, grid, nb_tetri, actual_width, &tmp_dead_cells))
-				{
+				/* if (enougth_cells(index, tetri, grid, nb_tetri, actual_width, &tmp_dead_cells)) */
+				/* { */
 					tetri->type->last_position = &tetri->position;
 					solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri,
 										actual_width, tmp_dead_cells);
-				}
+				/* } */
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
