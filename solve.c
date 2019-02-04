@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include "solve.h"
+#include "utils.h"
 #include "libft/libft.h"
 
 
@@ -92,7 +93,7 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	actual_width = sqrt_aprox(nb_tetri * 4);
 	while (actual_width <= MAX_WIDTH)
 	{
-		solve_and_print_rec(0, tetriminos, grid, nb_tetri, actual_width);
+		solve_and_print_rec(0, tetriminos, grid, nb_tetri, actual_width, 0);
 		actual_width++;
 	}
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
@@ -109,13 +110,70 @@ void	print_tab_short_int(int id, short int*tab)
 	}
 }
 
+int		island(int x, int y, short *grid,
+			   int actual_width, short *visited_cells)
+{
+	int					nb_empty_cells;
+	static t_position	offsets[4] = {{.x = -1, .y = 0}, {.x = 1, .y = 0},
+									  {.x = 0, .y = -1}, {.x = 0, .y = 1}};
+	int					direction;
+
+	if (x < 0 || x >= actual_width || y < 0 || y >= actual_width
+		|| visited_cells[y] & (1 << x) || grid[y] & (1 << x))
+		return 0;
+	visited_cells[y] ^= 1 << x;
+	nb_empty_cells = 1;
+	direction = 0;
+	while (direction < 4)
+	{
+		nb_empty_cells += island(x + offsets[direction].x, y + offsets[direction].y, grid,
+								actual_width, visited_cells);
+		if (nb_empty_cells > 3)
+			return (nb_empty_cells);
+		direction++;
+	}
+	return (nb_empty_cells);
+}
+
+int		enougth_cells(int index, t_tetri *tetri, short *grid,
+					  int nb_tetri, int actual_width, int *dead_cells)
+{
+	int		island_size;
+	t_grid	visited_cells;
+	int		point;
+	int nb_cells = actual_width * actual_width;
+	int required_free_cells = (nb_tetri - (index + 1)) * 4;
+
+	if (required_free_cells - (index + 1) * 6 > 0)
+		return (1);
+	ft_memset(visited_cells, 0, sizeof(t_grid));
+	point = 0;
+	while (point < 4)
+	{
+		island_size = island(tetri->position.x + tetri->type->points[point].x,
+							 tetri->position.y + tetri->type->points[point].y,
+							 grid, actual_width, (short *)visited_cells);
+		if (island_size <= 3)
+		{
+			*dead_cells += island_size;
+			if ((nb_cells - *dead_cells) < required_free_cells)
+				return (0);
+		}
+		point++;
+	}
+	return (1);
+	//return ((nb_cells - *dead_cells) >= required_free_cells);
+}
+
 void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
-							int nb_tetri, int actual_width)
+							int nb_tetri, int actual_width, int dead_cells)
 {
 	t_tetri		*tetri;
 	long int	*grid_for_cmp;
 	long int	tetri_actual;
 	int			bool_same_type;
+
+	int		tmp_dead_cells;
 
 	if (index == nb_tetri)
 		print_and_exit(tetriminos, nb_tetri, actual_width);
@@ -132,12 +190,19 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 		bool_same_type = 1;
 	}
 	else
+	{
+		tetri->position.y = 0;
+		tetri->position.x = 0;
 		bool_same_type = 0;
+	}
+	tetri_actual = tetri->type->mask;
 	while (tetri->position.y <= max_y)
 	{
-		tetri_actual = tetri->type->mask;
 		if (!bool_same_type)
+		{
+			tetri_actual = tetri->type->mask;
 			tetri->position.x = 0;
+		}
 		else
 		{
 			tetri_actual >>= tetri->position.x;
@@ -148,8 +213,13 @@ void	solve_and_print_rec(int index, t_tetri *tetriminos, t_grid grid,
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
 				*grid_for_cmp ^= tetri_actual;
-				tetri->type->last_position = &tetri->position;
-				solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri, actual_width);
+				tmp_dead_cells = dead_cells;
+				if (enougth_cells(index, tetri, grid, nb_tetri, actual_width, &tmp_dead_cells))
+				{
+					tetri->type->last_position = &tetri->position;
+					solve_and_print_rec(index + 1, tetriminos, grid, nb_tetri,
+										actual_width, tmp_dead_cells);
+				}
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
