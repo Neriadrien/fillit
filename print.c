@@ -48,24 +48,24 @@ void	fill_grid(char **printable_grid, t_tetri *tetriminos, int nb_tetri)
 	}
 }
 
-void	print_and_exit(t_tetri *tetriminos, int nb_tetri, int actual_width)
+void	print_and_exit(t_solve_data *data)
 {
 	char	**printable_grid;
 	int		i;
 
-	if (!(printable_grid = malloc(actual_width * sizeof(*printable_grid))))
+	if (!(printable_grid = malloc(data->size * sizeof(*printable_grid))))
 		exit(1);
 	i = 0;
-	while (i < actual_width)
+	while (i < data->size)
 	{
-		if (!(printable_grid[i] = ft_strnew(actual_width + 1)))
+		if (!(printable_grid[i] = ft_strnew(data->size + 1)))
 			exit(1);
-		ft_memset(printable_grid[i], '.', actual_width);
-		printable_grid[i][actual_width] = '\n';
+		ft_memset(printable_grid[i], '.', data->size);
+		printable_grid[i][data->size] = '\n';
 		i++;
 	}
-	fill_grid(printable_grid, tetriminos, nb_tetri);
-	print_grid(printable_grid, actual_width);
+	fill_grid(printable_grid, data->ltetris, data->nb_tetri);
+	print_grid(printable_grid, data->size);
 	exit(0);
 }
 

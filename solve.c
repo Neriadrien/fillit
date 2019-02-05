@@ -77,7 +77,7 @@ void	solve_and_print_rec(int index, t_solve_data *p)
 	long int	tetri_actual;
 
 	if (index == p->nb_tetri)
-		print_and_exit(p->ltetris, p->nb_tetri, p->size);
+		print_and_exit(p);
 	start_position(&p->ltetris[index], p->grid, &grid_for_cmp, &tetri_actual);
 	while (p->ltetris[index].pos.y <= p->size - p->ltetris[index].type->height)
 	{

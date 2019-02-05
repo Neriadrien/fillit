@@ -14,9 +14,10 @@
 # define PRINT_H
 
 # include "utils.h"
+# include "solve.h"
 
 void	print_grid(char *grid[], int width);
-void	print_and_exit(t_tetri *tetriminos, int nb_tetri, int actual_width);
+void	print_and_exit(t_solve_data *data);
 void	print_tab_short_int(int id, short int *tab);
 
 #endif
