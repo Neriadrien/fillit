@@ -14,8 +14,6 @@
 #include "print.h"
 #include "libft.h"
 
-#include <stdio.h>
-
 void	print_grid(char *grid[], int width)
 {
 	int i;
