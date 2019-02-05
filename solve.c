@@ -33,17 +33,16 @@ int		sqrt_aprox(int nb)
 
 void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 {
-	t_grid	grid;
-	int		actual_width;
+	t_solve_data	data;
 
-	ft_memset(&grid, 0, sizeof(grid));
-	actual_width = sqrt_aprox(nb_tetri * 4);
-	while (actual_width <= MAX_WIDTH)
+	ft_memset(&data.grid, 0, sizeof(data.grid));
+	data.size = sqrt_aprox(nb_tetri * 4);
+	data.ltetris = tetriminos;
+	data.nb_tetri = nb_tetri;
+	while (data.size <= MAX_WIDTH)
 	{
-		solve_and_print_rec(0, (t_solve_data){.ltetris = tetriminos,
-					.grid = &grid, .nb_tetri = nb_tetri,
-					.size = actual_width});
-		actual_width++;
+		solve_and_print_rec(0, &data);
+		data.size++;
 	}
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
 	exit(1);
@@ -72,31 +71,31 @@ void	start_position(t_tetri *tetri, t_grid grid, long int **grid_for_cmp,
 	}
 }
 
-void	solve_and_print_rec(int index, t_solve_data p)
+void	solve_and_print_rec(int index, t_solve_data *p)
 {
 	long int	*grid_for_cmp;
 	long int	tetri_actual;
 
-	if (index == p.nb_tetri)
-		print_and_exit(p.ltetris, p.nb_tetri, p.size);
-	start_position(&p.ltetris[index], *p.grid, &grid_for_cmp, &tetri_actual);
-	while (p.ltetris[index].pos.y <= p.size - p.ltetris[index].type->height)
+	if (index == p->nb_tetri)
+		print_and_exit(p->ltetris, p->nb_tetri, p->size);
+	start_position(&p->ltetris[index], p->grid, &grid_for_cmp, &tetri_actual);
+	while (p->ltetris[index].pos.y <= p->size - p->ltetris[index].type->height)
 	{
-		while (p.ltetris[index].pos.x <= p.size - p.ltetris[index].type->width)
+		while (p->ltetris[index].pos.x <= p->size - p->ltetris[index].type->width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
 				*grid_for_cmp ^= tetri_actual;
-				p.ltetris[index].type->last_position = &p.ltetris[index].pos;
+				p->ltetris[index].type->last_position = &p->ltetris[index].pos;
 				solve_and_print_rec(index + 1, p);
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
-			p.ltetris[index].pos.x++;
+			p->ltetris[index].pos.x++;
 		}
-		tetri_actual = p.ltetris[index].type->mask;
-		p.ltetris[index].pos.x = 0;
-		grid_for_cmp = (long*)(&(*p.grid)[++p.ltetris[index].pos.y]);
+		tetri_actual = p->ltetris[index].type->mask;
+		p->ltetris[index].pos.x = 0;
+		grid_for_cmp = (long*)(&p->grid[++p->ltetris[index].pos.y]);
 	}
-	p.ltetris[index].type->last_position = NULL;
+	p->ltetris[index].type->last_position = NULL;
 }
