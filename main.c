@@ -163,8 +163,8 @@ int		main(int argc, char *argv[])
 	t_tetritype types[26];
 	t_position	positions[26][4];
 
-	(void)types;
 	(void)positions;
+	ft_memset(types, 0, 26 * sizeof(t_tetritype));
 	if (argc != 2)
 		print_usage(argv[0]);
 	else
