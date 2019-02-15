@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 15:57:31 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/01/21 17:19:07 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/15 23:14:50 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		max(int first, int second)
 	return (first > second ? first : second);
 }
 
-void generate_type_values(t_tetritype* type)
+void	generate_type_values(t_tetritype *type)
 {
 	int point;
 
@@ -31,8 +31,8 @@ void generate_type_values(t_tetritype* type)
 	{
 		type->height = max(type->height, type->points[point].y + 1);
 		type->width = max(type->width, type->points[point].x + 1);
-		((short int*)&type->mask)[type->points[point].y]
-			^= 1 << (sizeof(short int) * 8 - 1 - type->points[point].x);
+		((short int*)&type->mask)[type->points[point].y] ^=
+			1 << (sizeof(short int) * 8 - 1 - type->points[point].x);
 		point++;
 	}
 }
@@ -54,7 +54,7 @@ t_tetri	*parse_file(char *filename, int *nb_tetri)
 	types[0].points[0] = (t_position){.x = 1, .y = 0};
 	types[0].points[1] = (t_position){.x = 2, .y = 0};
 	types[0].points[2] = (t_position){.x = 0, .y = 1};
- 	types[0].points[3] = (t_position){.x = 1, .y = 1};
+	types[0].points[3] = (t_position){.x = 1, .y = 1};
 	tetriminos[0] = (t_tetri){.type = &types[0]};
 	types[1].points[0] = (t_position){.x = 0, .y = 0};
 	types[1].points[1] = (t_position){.x = 1, .y = 0};
@@ -129,7 +129,7 @@ int		is_type_already_created(t_tetritype *types, t_position *(positions[4]),
 }
 
 void	generate_types(t_tetritype *types, t_position *(positions[4]),
-					   t_tetri *tetriminos, int nb_tetri)
+						t_tetri *tetriminos, int nb_tetri)
 {
 	int index;
 
@@ -139,7 +139,7 @@ void	generate_types(t_tetritype *types, t_position *(positions[4]),
 		if (!is_type_already_created(types, &positions[index], index))
 		{
 			ft_memcpy(types[index].points, &positions[index],
-					  4 * sizeof(t_position));
+				4 * sizeof(t_position));
 			generate_type_values(&types[index]);
 		}
 		tetriminos[index].type = &types[index];

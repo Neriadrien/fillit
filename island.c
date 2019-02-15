@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:03:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 17:07:33 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/15 21:50:05 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int		enougth_cells(int index, t_solve_data *data, int *dead_cells)
 	int		island_size;
 	t_grid	visited_cells;
 	int		point;
-	int		required_free_cells = (data->nb_tetri - (index + 1)) * 4;
+	int		required_free_cells;
 
+	required_free_cells = (data->nb_tetri - (index + 1)) * 4;
 	if (required_free_cells - (index + 1) * 6 > 0)
 		return (1);
 	ft_memset(visited_cells, 0, sizeof(t_grid));
