@@ -158,9 +158,13 @@ void	print_usage(char *prog_name)
 
 int		main(int argc, char *argv[])
 {
-	t_tetri	*tetriminos;
-	int		nb_tetri;
+	t_tetri		*tetriminos;	//TODO [26]
+	int			nb_tetri;
+	t_tetritype types[26];
+	t_position	positions[26][4];
 
+	(void)types;
+	(void)positions;
 	if (argc != 2)
 		print_usage(argv[0]);
 	else
