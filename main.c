@@ -133,9 +133,7 @@ void	generate_types(t_tetritype *types, t_position *(positions[4]),
 {
 	int index;
 
-	ft_memcpy(types[0].points, &positions[0], 4 * sizeof(t_position));
-	generate_type_values(&types[0]);
-	index = 1;
+	index = 0;
 	while (index < nb_tetri)
 	{
 		if (!is_type_already_created(types, &positions[index], index))
