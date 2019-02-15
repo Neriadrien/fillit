@@ -113,6 +113,42 @@ t_tetri	*parse_file(char *filename, int *nb_tetri)
 	return (tetriminos);
 }
 
+int		is_type_already_created(t_tetritype *types, t_position *(positions[4]),
+								int nb_types)
+{
+	int index;
+
+	index = 0;
+	while (index < nb_types)
+	{
+		if (ft_memcmp(positions, &types[index].points, 4 * sizeof(t_position)))
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
+void	generate_types(t_tetritype *types, t_position *(positions[4]),
+					   t_tetri *tetriminos, int nb_tetri)
+{
+	int index;
+
+	ft_memcpy(types[0].points, &positions[0], 4 * sizeof(t_position));
+	generate_type_values(&types[0]);
+	index = 1;
+	while (index < nb_tetri)
+	{
+		if (!is_type_already_created(types, &positions[index], index))
+		{
+			ft_memcpy(types[index].points, &positions[index],
+					  4 * sizeof(t_position));
+			generate_type_values(&types[index]);
+		}
+		tetriminos[index].type = &types[index];
+		index++;
+	}
+}
+
 void	print_usage(char *prog_name)
 {
 	ft_putstr("usage: ");
