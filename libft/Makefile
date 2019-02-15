@@ -6,7 +6,7 @@
 #    By: hbode <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/12 19:31:39 by hbode             #+#    #+#              #
-#    Updated: 2019/01/10 17:08:16 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/02/15 21:49:09 by hthiessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ $(LIB_NAME): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $?
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(DEP)
 
 fclean: clean
 	$(RM) $(LIB_NAME)
