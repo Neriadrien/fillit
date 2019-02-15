@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # define MAX_WIDTH 13
+# define MAX_TETRI 26
 
 typedef struct	s_position
 {

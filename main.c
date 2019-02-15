@@ -37,19 +37,11 @@ void	generate_type_values(t_tetritype *type)
 	}
 }
 
-t_tetri	*parse_file(char *filename, int *nb_tetri)
+void	parse_file(char *filename, int *nb_tetri, t_tetri *tetriminos,
+					t_tetritype *types)
 {
-	t_tetri		*tetriminos;
-	t_tetritype	*types;
-
-	(void)filename;
-	*nb_tetri = 23;
-	if (!(tetriminos = malloc(*nb_tetri * sizeof(*tetriminos))))
-		return (NULL);
-	if (!(types = malloc(*nb_tetri * sizeof(*types))))
-		return (NULL);
-	ft_memset(tetriminos, 0, *nb_tetri * sizeof(*tetriminos));
-	ft_memset(types, 0, *nb_tetri * sizeof(*types));
+	ft_memset(tetriminos, 0, MAX_TETRI * sizeof(*tetriminos));
+	ft_memset(types, 0, MAX_TETRI * sizeof(*types));
 
 	types[0].points[0] = (t_position){.x = 1, .y = 0};
 	types[0].points[1] = (t_position){.x = 2, .y = 0};
@@ -109,8 +101,6 @@ t_tetri	*parse_file(char *filename, int *nb_tetri)
 		generate_type_values(&types[tetri]);
 		tetri++;
 	}
-
-	return (tetriminos);
 }
 
 int		is_type_already_created(t_tetritype *types, t_position *(positions[4]),
@@ -156,19 +146,17 @@ void	print_usage(char *prog_name)
 
 int		main(int argc, char *argv[])
 {
-	t_tetri		*tetriminos;	//TODO [26]
+	t_tetri		tetriminos[MAX_TETRI];
 	int			nb_tetri;
-	t_tetritype types[26];
-	t_position	positions[26][4];
+	t_tetritype types[MAX_TETRI];
+	t_position	positions[MAX_TETRI][4];
 
 	(void)positions;
-	ft_memset(types, 0, 26 * sizeof(t_tetritype));
 	if (argc != 2)
 		print_usage(argv[0]);
 	else
 	{
-		if (!(tetriminos = parse_file(argv[1], &nb_tetri)))
-			return (1);
+		parse_file(argv[1], &nb_tetri, tetriminos, types);
 		solve_and_print(tetriminos, nb_tetri);
 	}
 	return (0);
