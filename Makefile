@@ -11,6 +11,7 @@
 #******************************************************************************#
 
 NAME = fillit
+LIB = libft/libft.a
 
 SRC = main.c solve.c print.c #island.c
 
@@ -26,9 +27,11 @@ DEP = $(SRC:.c=.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIB)
+	$(LINK.o) -o $@ $^
+
+$(LIB):
 	$(MAKE) -C libft/
-	$(LINK.o) -o $@ $^ libft/libft.a
 
 clean:
 	$(RM) $(OBJ) $(DEP)
