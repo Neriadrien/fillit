@@ -13,13 +13,28 @@
 #include "libft/libft.h"
 #include "solve.h"
 
-
 int		max(int first, int second)
 {
 	return (first > second ? first : second);
 }
 
-#include <stdio.h>
+void generate_type_values(t_tetritype* type)
+{
+	int point;
+
+	type->mask = 0;
+	type->height = 0;
+	type->width = 0;
+	point = 0;
+	while (point < 4)
+	{
+		type->height = max(type->height, type->points[point].y + 1);
+		type->width = max(type->width, type->points[point].x + 1);
+		((short int*)&type->mask)[type->points[point].y]
+			^= 1 << (sizeof(short int) * 8 - 1 - type->points[point].x);
+		point++;
+	}
+}
 
 t_tetri	*parse_file(char *filename, int *nb_tetri)
 {
@@ -110,21 +125,10 @@ t_tetri	*parse_file(char *filename, int *nb_tetri)
 	*nb_tetri = ft_atoi(filename);
 
 	int tetri = 0;
-	int point = 0;
 
 	while (tetri < *nb_tetri)
 	{
-		point = 0;
-		//ft_memset(tetriminos[tetri].type->points, 0, 4 * sizeof(t_position));
-		while (point < 4)
-		{
-			types[tetri].height = max(types[tetri].height, types[tetri].points[point].y + 1);
-			types[tetri].width = max(types[tetri].width, types[tetri].points[point].x + 1);
-			((short int*)&types[tetri].mask)
-				[types[tetri].points[point].y] ^= 1 << (sizeof(short int) * 8 - 1 - types[tetri].points[point].x);
-			point++;
-		}
-		//printf("tetri %d: "LONG_TO_BINARY_PATTERN"\n\n", tetri, LONG_TO_BINARY(tetriminos[tetri].type->mask));
+		generate_type_values(&types[tetri]);
 		tetri++;
 	}
 
