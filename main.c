@@ -25,6 +25,7 @@ void generate_type_values(t_tetritype* type)
 	type->mask = 0;
 	type->height = 0;
 	type->width = 0;
+	type->last_position = NULL;
 	point = 0;
 	while (point < 4)
 	{
