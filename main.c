@@ -49,29 +49,6 @@ t_tetri	*parse_file(char *filename, int *nb_tetri)
 		return (NULL);
 	ft_memset(tetriminos, 0, *nb_tetri * sizeof(*tetriminos));
 	ft_memset(types, 0, *nb_tetri * sizeof(*types));
-	/* types[0] = (t_tetritype){.height = 2, .width = 2}; */
-	/* types[0].points[0] = (t_position){.x = 0, .y = 0}; */
-	/* types[0].points[1] = (t_position){.x = 0, .y = 1}; */
-	/* types[0].points[2] = (t_position){.x = 1, .y = 0}; */
-	/* types[0].points[3] = (t_position){.x = 1, .y = 1}; */
-	/* types[0].cache[0] = 0b1100000000000000110000000000000000000000000000000000000000000000; */
-	/* tetriminos[0] = (t_tetri){.type = &types[0]}; */
-	/* types[1] = (t_tetritype){.height = 3, .width = 2}; */
-	/* types[1].points[0] = (t_position){.x = 1, .y = 0}; */
-	/* types[1].points[1] = (t_position){.x = 1, .y = 1}; */
-	/* types[1].points[2] = (t_position){.x = 1, .y = 2}; */
-	/* types[1].points[3] = (t_position){.x = 0, .y = 2}; */
-	/* types[1].cache[0] = 0b0100000000000000010000000000000011000000000000000000000000000000; */
-	/* tetriminos[1] = (t_tetri){.type = &types[1]}; */
-	/* types[2] = (t_tetritype){.height = 2, .width = 3}; */
-	/* types[2].points[0] = (t_position){.x = 0, .y = 0}; */
-	/* types[2].points[1] = (t_position){.x = 0, .y = 1}; */
-	/* types[2].points[2] = (t_position){.x = 1, .y = 1}; */
-	/* types[2].points[3] = (t_position){.x = 2, .y = 1}; */
-	/* types[2].cache[0] = 0b1000000000000000111000000000000000000000000000000000000000000000; */
-	/* tetriminos[2] = (t_tetri){.type = &types[2]}; */
-
-
 
 	types[0].points[0] = (t_position){.x = 1, .y = 0};
 	types[0].points[1] = (t_position){.x = 2, .y = 0};
