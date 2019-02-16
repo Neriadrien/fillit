@@ -37,73 +37,117 @@ void	generate_type_values(t_tetritype *type)
 	}
 }
 
-void	parse_file(char *filename, int *nb_tetri, t_tetri *tetriminos,
-					t_tetritype *types)
+#include <stdlib.h>
+
+void	parse_file(char *filename, int *nb_tetri, t_position **positions)
 {
-	ft_memset(tetriminos, 0, MAX_TETRI * sizeof(*tetriminos));
-	ft_memset(types, 0, MAX_TETRI * sizeof(*types));
+	int index;
 
-	types[0].points[0] = (t_position){.x = 1, .y = 0};
-	types[0].points[1] = (t_position){.x = 2, .y = 0};
-	types[0].points[2] = (t_position){.x = 0, .y = 1};
-	types[0].points[3] = (t_position){.x = 1, .y = 1};
-	tetriminos[0] = (t_tetri){.type = &types[0]};
-	types[1].points[0] = (t_position){.x = 0, .y = 0};
-	types[1].points[1] = (t_position){.x = 1, .y = 0};
-	types[1].points[2] = (t_position){.x = 1, .y = 1};
-	types[1].points[3] = (t_position){.x = 1, .y = 2};
-	tetriminos[1] = (t_tetri){.type = &types[1]};
-	tetriminos[2] = (t_tetri){.type = &types[0]};
-	tetriminos[3] = (t_tetri){.type = &types[0]};
-	tetriminos[4] = (t_tetri){.type = &types[0]};
-	tetriminos[5] = (t_tetri){.type = &types[0]};
-	tetriminos[6] = (t_tetri){.type = &types[0]};
-	tetriminos[7] = (t_tetri){.type = &types[0]};
-	types[8].points[0] = (t_position){.x = 0, .y = 0};
-	types[8].points[1] = (t_position){.x = 1, .y = 0};
-	types[8].points[2] = (t_position){.x = 2, .y = 0};
-	types[8].points[3] = (t_position){.x = 1, .y = 1};
-	tetriminos[8] = (t_tetri){.type = &types[8]};
-	tetriminos[9] = (t_tetri){.type = &types[0]};
-	tetriminos[10] = (t_tetri){.type = &types[0]};
-	tetriminos[11] = (t_tetri){.type = &types[0]};
-	tetriminos[12] = (t_tetri){.type = &types[0]};
-	tetriminos[13] = (t_tetri){.type = &types[8]};
-	tetriminos[14] = (t_tetri){.type = &types[0]};
-	tetriminos[15] = (t_tetri){.type = &types[0]};
-	types[16].points[0] = (t_position){.x = 0, .y = 0};
-	types[16].points[1] = (t_position){.x = 0, .y = 1};
-	types[16].points[2] = (t_position){.x = 0, .y = 2};
-	types[16].points[3] = (t_position){.x = 0, .y = 3};
-	tetriminos[16] = (t_tetri){.type = &types[16]};
-	tetriminos[17] = (t_tetri){.type = &types[0]};
-	tetriminos[18] = (t_tetri){.type = &types[0]};
-	types[19].points[0] = (t_position){.x = 0, .y = 0};
-	types[19].points[1] = (t_position){.x = 0, .y = 1};
-	types[19].points[2] = (t_position){.x = 0, .y = 2};
-	types[19].points[3] = (t_position){.x = 1, .y = 2};
-	tetriminos[19] = (t_tetri){.type = &types[19]};
-	tetriminos[20] = (t_tetri){.type = &types[0]};
-	tetriminos[21] = (t_tetri){.type = &types[0]};
-	types[22].points[0] = (t_position){.x = 0, .y = 0};
-	types[22].points[1] = (t_position){.x = 1, .y = 0};
-	types[22].points[2] = (t_position){.x = 2, .y = 0};
-	types[22].points[3] = (t_position){.x = 3, .y = 0};
-	tetriminos[22] = (t_tetri){.type = &types[22]};
-
-
-	*nb_tetri = ft_atoi(filename);
-
-	int tetri = 0;
-
-	while (tetri < *nb_tetri)
+	index = 0;
+	while (index < MAX_TETRI)
 	{
-		generate_type_values(&types[tetri]);
-		tetri++;
+		if (!(positions[index] = ft_memalloc(4 * sizeof(t_position))))
+			exit(1);
+		index++;
 	}
+	*nb_tetri = ft_atoi(filename);
+	positions[0][0] = (t_position){.x = 1, .y = 0};
+	positions[0][1] = (t_position){.x = 2, .y = 0};
+	positions[0][2] = (t_position){.x = 0, .y = 1};
+	positions[0][3] = (t_position){.x = 1, .y = 1};
+	positions[1][0] = (t_position){.x = 0, .y = 0};
+	positions[1][1] = (t_position){.x = 1, .y = 0};
+	positions[1][2] = (t_position){.x = 1, .y = 1};
+	positions[1][3] = (t_position){.x = 1, .y = 2};
+	positions[2][0] = (t_position){.x = 1, .y = 0};
+	positions[2][1] = (t_position){.x = 2, .y = 0};
+	positions[2][2] = (t_position){.x = 0, .y = 1};
+	positions[2][3] = (t_position){.x = 1, .y = 1};
+	positions[3][0] = (t_position){.x = 1, .y = 0};
+	positions[3][1] = (t_position){.x = 2, .y = 0};
+	positions[3][2] = (t_position){.x = 0, .y = 1};
+	positions[3][3] = (t_position){.x = 1, .y = 1};
+	positions[4][0] = (t_position){.x = 1, .y = 0};
+	positions[4][1] = (t_position){.x = 2, .y = 0};
+	positions[4][2] = (t_position){.x = 0, .y = 1};
+	positions[4][3] = (t_position){.x = 1, .y = 1};
+	positions[5][0] = (t_position){.x = 1, .y = 0};
+	positions[5][1] = (t_position){.x = 2, .y = 0};
+	positions[5][2] = (t_position){.x = 0, .y = 1};
+	positions[5][3] = (t_position){.x = 1, .y = 1};
+	positions[6][0] = (t_position){.x = 1, .y = 0};
+	positions[6][1] = (t_position){.x = 2, .y = 0};
+	positions[6][2] = (t_position){.x = 0, .y = 1};
+	positions[6][3] = (t_position){.x = 1, .y = 1};
+	positions[7][0] = (t_position){.x = 1, .y = 0};
+	positions[7][1] = (t_position){.x = 2, .y = 0};
+	positions[7][2] = (t_position){.x = 0, .y = 1};
+	positions[7][3] = (t_position){.x = 1, .y = 1};
+	positions[8][0] = (t_position){.x = 0, .y = 0};
+	positions[8][1] = (t_position){.x = 1, .y = 0};
+	positions[8][2] = (t_position){.x = 2, .y = 0};
+	positions[8][3] = (t_position){.x = 1, .y = 1};
+	positions[9][0] = (t_position){.x = 1, .y = 0};
+	positions[9][1] = (t_position){.x = 2, .y = 0};
+	positions[9][2] = (t_position){.x = 0, .y = 1};
+	positions[9][3] = (t_position){.x = 1, .y = 1};
+	positions[10][0] = (t_position){.x = 1, .y = 0};
+	positions[10][1] = (t_position){.x = 2, .y = 0};
+	positions[10][2] = (t_position){.x = 0, .y = 1};
+	positions[10][3] = (t_position){.x = 1, .y = 1};
+	positions[11][0] = (t_position){.x = 1, .y = 0};
+	positions[11][1] = (t_position){.x = 2, .y = 0};
+	positions[11][2] = (t_position){.x = 0, .y = 1};
+	positions[11][3] = (t_position){.x = 1, .y = 1};
+	positions[12][0] = (t_position){.x = 1, .y = 0};
+	positions[12][1] = (t_position){.x = 2, .y = 0};
+	positions[12][2] = (t_position){.x = 0, .y = 1};
+	positions[12][3] = (t_position){.x = 1, .y = 1};
+	positions[13][0] = (t_position){.x = 0, .y = 0};
+	positions[13][1] = (t_position){.x = 1, .y = 0};
+	positions[13][2] = (t_position){.x = 2, .y = 0};
+	positions[13][3] = (t_position){.x = 1, .y = 1};
+	positions[14][0] = (t_position){.x = 1, .y = 0};
+	positions[14][1] = (t_position){.x = 2, .y = 0};
+	positions[14][2] = (t_position){.x = 0, .y = 1};
+	positions[14][3] = (t_position){.x = 1, .y = 1};
+	positions[15][0] = (t_position){.x = 1, .y = 0};
+	positions[15][1] = (t_position){.x = 2, .y = 0};
+	positions[15][2] = (t_position){.x = 0, .y = 1};
+	positions[15][3] = (t_position){.x = 1, .y = 1};
+	positions[16][0] = (t_position){.x = 0, .y = 0};
+	positions[16][1] = (t_position){.x = 0, .y = 1};
+	positions[16][2] = (t_position){.x = 0, .y = 2};
+	positions[16][3] = (t_position){.x = 0, .y = 3};
+	positions[17][0] = (t_position){.x = 1, .y = 0};
+	positions[17][1] = (t_position){.x = 2, .y = 0};
+	positions[17][2] = (t_position){.x = 0, .y = 1};
+	positions[17][3] = (t_position){.x = 1, .y = 1};
+	positions[18][0] = (t_position){.x = 1, .y = 0};
+	positions[18][1] = (t_position){.x = 2, .y = 0};
+	positions[18][2] = (t_position){.x = 0, .y = 1};
+	positions[18][3] = (t_position){.x = 1, .y = 1};
+	positions[19][0] = (t_position){.x = 0, .y = 0};
+	positions[19][1] = (t_position){.x = 0, .y = 1};
+	positions[19][2] = (t_position){.x = 0, .y = 2};
+	positions[19][3] = (t_position){.x = 1, .y = 2};
+	positions[20][0] = (t_position){.x = 1, .y = 0};
+	positions[20][1] = (t_position){.x = 2, .y = 0};
+	positions[20][2] = (t_position){.x = 0, .y = 1};
+	positions[20][3] = (t_position){.x = 1, .y = 1};
+	positions[21][0] = (t_position){.x = 1, .y = 0};
+	positions[21][1] = (t_position){.x = 2, .y = 0};
+	positions[21][2] = (t_position){.x = 0, .y = 1};
+	positions[21][3] = (t_position){.x = 1, .y = 1};
+	positions[22][0] = (t_position){.x = 0, .y = 0};
+	positions[22][1] = (t_position){.x = 1, .y = 0};
+	positions[22][2] = (t_position){.x = 2, .y = 0};
+	positions[22][3] = (t_position){.x = 3, .y = 0};
+	/* ft_memcpy(positions[0], positions[*nb_tetri], 4 * sizeof(t_position)); */
+	/* *nb_tetri = 1; */
 }
 
-int		is_type_already_created(t_tetritype *types, t_position *(positions[4]),
+int		is_type_already_created(t_tetritype *types, t_position **positions,
 								int nb_types)
 {
 	int index;
@@ -111,28 +155,32 @@ int		is_type_already_created(t_tetritype *types, t_position *(positions[4]),
 	index = 0;
 	while (index < nb_types)
 	{
-		if (ft_memcmp(positions, &types[index].points, 4 * sizeof(t_position)))
-			return (1);
+		if (ft_memcmp(positions, &types[index].points, 4 * sizeof(t_position)) == 0)
+			return (index);
 		index++;
 	}
-	return (0);
+	return (-1);
 }
 
-void	generate_types(t_tetritype *types, t_position *(positions[4]),
+void	generate_types(t_tetritype *types, t_position **positions,
 						t_tetri *tetriminos, int nb_tetri)
 {
 	int index;
+	int type_index;
 
 	index = 0;
 	while (index < nb_tetri)
 	{
-		if (!is_type_already_created(types, &positions[index], index))
+		type_index = is_type_already_created(types, &positions[index], index);
+		if (type_index == -1)
 		{
-			ft_memcpy(types[index].points, &positions[index],
+			ft_memcpy(types[index].points, positions[index],
 				4 * sizeof(t_position));
 			generate_type_values(&types[index]);
+			tetriminos[index].type = &types[index];
 		}
-		tetriminos[index].type = &types[index];
+		else
+			tetriminos[index].type = &types[type_index];
 		index++;
 	}
 }
@@ -149,14 +197,14 @@ int		main(int argc, char *argv[])
 	t_tetri		tetriminos[MAX_TETRI];
 	int			nb_tetri;
 	t_tetritype types[MAX_TETRI];
-	t_position	positions[MAX_TETRI][4];
+	t_position	*positions[26];
 
-	(void)positions;
 	if (argc != 2)
 		print_usage(argv[0]);
 	else
 	{
-		parse_file(argv[1], &nb_tetri, tetriminos, types);
+		parse_file(argv[1], &nb_tetri, positions);
+		generate_types(types, positions, tetriminos, nb_tetri);
 		solve_and_print(tetriminos, nb_tetri);
 	}
 	return (0);
