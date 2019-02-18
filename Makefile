@@ -6,14 +6,14 @@
 #    By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 15:05:01 by hthiessa          #+#    #+#              #
-#    Updated: 2019/02/04 16:27:53 by hthiessa         ###   ########.fr        #
+#    Updated: 2019/02/18 17:36:01 by hthiessa         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = fillit
 LIB = libft/libft.a
 
-SRC = main.c solve.c print.c #island.c
+SRC = main.c solve.c print.c check_file.c check_adjacent.c set_left.c #island.c
 
 CFLAGS ?= -Werror -Wall -Wextra
 
