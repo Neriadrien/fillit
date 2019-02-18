@@ -6,7 +6,7 @@
 /*   By: hbode <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:58:23 by hbode             #+#    #+#             */
-/*   Updated: 2019/02/04 19:44:16 by hbode            ###   ########.fr       */
+/*   Updated: 2019/02/18 19:03:40 by hbode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define BUF_SIZE 21
 
-typedef char t_tetris[4][4];
+typedef char	t_tetris[4][4];
 
 int		check_argc(int argc);
 int		check_left(char *tetri, int i);
