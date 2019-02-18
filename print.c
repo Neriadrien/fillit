@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:00:41 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:50:17 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:13:43 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	print_and_exit(t_solve_data *data)
 		printable_grid[index][data->size] = '\n';
 		index++;
 	}
-	fill_grid(printable_grid, data->ltetris, data->nb_tetri);
+	fill_grid(printable_grid, data->ltetri, data->nb_tetri);
 	print_grid(printable_grid, data->size);
 	free_printable_grid(printable_grid, data->size);
 	exit(0);

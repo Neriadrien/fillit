@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/04 16:32:17 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:13:14 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 
 	ft_memset(&data.grid, 0, sizeof(data.grid));
 	data.size = sqrt_aprox(nb_tetri * 4);
-	data.ltetris = tetriminos;
+	data.ltetri = tetriminos;
 	data.nb_tetri = nb_tetri;
 	while (data.size <= MAX_WIDTH)
 	{
@@ -78,24 +78,24 @@ void	solve_and_print_rec(int index, t_solve_data *p)
 
 	if (index == p->nb_tetri)
 		print_and_exit(p);
-	start_position(&p->ltetris[index], p->grid, &grid_for_cmp, &tetri_actual);
-	while (p->ltetris[index].pos.y <= p->size - p->ltetris[index].type->height)
+	start_position(&p->ltetri[index], p->grid, &grid_for_cmp, &tetri_actual);
+	while (p->ltetri[index].pos.y <= p->size - p->ltetri[index].type->height)
 	{
-		while (p->ltetris[index].pos.x <= p->size - p->ltetris[index].type->width)
+		while (p->ltetri[index].pos.x <= p->size - p->ltetri[index].type->width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
 				*grid_for_cmp ^= tetri_actual;
-				p->ltetris[index].type->last_position = &p->ltetris[index].pos;
+				p->ltetri[index].type->last_position = &p->ltetri[index].pos;
 				solve_and_print_rec(index + 1, p);
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
-			p->ltetris[index].pos.x++;
+			p->ltetri[index].pos.x++;
 		}
-		tetri_actual = p->ltetris[index].type->mask;
-		p->ltetris[index].pos.x = 0;
-		grid_for_cmp = (long*)(&p->grid[++p->ltetris[index].pos.y]);
+		tetri_actual = p->ltetri[index].type->mask;
+		p->ltetri[index].pos.x = 0;
+		grid_for_cmp = (long*)(&p->grid[++p->ltetri[index].pos.y]);
 	}
-	p->ltetris[index].type->last_position = NULL;
+	p->ltetri[index].type->last_position = NULL;
 }
