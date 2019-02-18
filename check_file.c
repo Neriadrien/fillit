@@ -6,43 +6,14 @@
 /*   By: hbode <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 16:48:25 by hbode             #+#    #+#             */
-/*   Updated: 2019/02/04 18:43:19 by hbode            ###   ########.fr       */
+/*   Updated: 2019/02/04 19:43:47 by hbode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include "utils.h"
-#include <stdio.h>
 
-int		check_left(char *tetri, int i)
-{
-	if (i % 5 == 0)
-		return (0);
-	return (tetri[i - 1] == '#');
-}
-
-int		check_right(char *tetri, int i)
-{
-	if ((i % 5) - 3 == 0)
-		return (0);
-	return (tetri[i + 1] == '#');
-}
-
-int		check_top(char *tetri, int i)
-{
-	if (i / 5 == 0)
-		return (0);
-	return (tetri[i - 5] == '#');
-}
-
-int		check_bot(char *tetri, int i)
-{
-	if (i / 5 == 3)
-		return (0);
-	return (tetri[i + 5] == '#');
-}
-
-void	fill_grid(t_points *grid, int i, char *tetri)
+static void		fill_grid(t_points *grid, int i, char *tetri)
 {
 	int		j;
 	int		count;
@@ -61,7 +32,7 @@ void	fill_grid(t_points *grid, int i, char *tetri)
 	}
 }
 
-int		check_connections(char *tetri)
+static int		check_connections(char *tetri)
 {
 	int		i;
 	int		connections;
@@ -88,7 +59,7 @@ int		check_connections(char *tetri)
 	return (0);
 }
 
-int		check_tetri(char *tetri)
+static int		check_tetri(char *tetri)
 {
 	int		i;
 	int		points;
@@ -117,7 +88,7 @@ int		check_tetri(char *tetri)
 	return (0);
 }
 
-int		get_next_tetri(int fd, t_points *grid)
+static int		get_next_tetri(int fd, t_points *grid)
 {
 	int		ret;
 	char	buf[BUF_SIZE + 1];
@@ -138,26 +109,14 @@ int		get_next_tetri(int fd, t_points *grid)
 	return (i);
 }
 
-int		parse(char *file, t_points *grid)
+int				parse(char *file, t_points *grid)
 {
 	int		fd;
 	int		count;
-	int		i = 0;
-	int		j = 0;
 
 	fd = open(file, O_RDONLY);
 	count = get_next_tetri(fd, grid);
-	while (i < count)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			printf("%d,%d\n", grid[i][j].x, grid[i][j].y);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	set_all_left(grid, count);
 	close(fd);
-	return (1);
+	return (count);
 }
