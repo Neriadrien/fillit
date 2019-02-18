@@ -6,7 +6,7 @@
 /*   By: hbode <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 16:48:25 by hbode             #+#    #+#             */
-/*   Updated: 2019/02/04 19:43:47 by hbode            ###   ########.fr       */
+/*   Updated: 2019/02/18 18:24:23 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,12 @@ static int		get_next_tetri(int fd, t_points *grid)
 	while ((ret = read(fd, buf, BUF_SIZE)))
 	{
 		buf[ret] = '\0';
-		if (check_tetri(buf) == 0 || check_connections(buf) == 0)
+		if (check_tetri(buf) == 0 || check_connections(buf) == 0
+			|| ft_memchr(buf, '\0', BUF_SIZE))
 		{
-			ft_putstr("wrong file");
-			return (0);
+			ft_putendl_fd("wrong file", 2);
+			close(fd);
+			exit(1);
 		}
 		fill_grid(grid, i, buf);
 		i++;
