@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 15:57:31 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/18 17:34:53 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/18 18:09:46 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,6 @@ int		main(int argc, char *argv[])
 		print_usage(argv[0]);
 	else
 	{
-		/* int index; */
-
-		/* index = 0; */
-		/* while (index < MAX_TETRI) */
-		/* { */
-		/* 	if (!(positions[index] = ft_memalloc(4 * sizeof(t_position)))) */
-		/* 		exit(1); */
-		/* 	index++; */
-		/* } */
 		nb_tetri = parse(argv[1], positions);
 		generate_types(types, positions, tetriminos, nb_tetri);
 		solve_and_print(tetriminos, nb_tetri);
