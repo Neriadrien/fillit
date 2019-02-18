@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 15:57:31 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/15 23:14:50 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:25:14 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		max(int first, int second)
 	return (first > second ? first : second);
 }
 
-void	generate_type_values(t_tetritype *type)
+void	generate_type_values(t_type *type)
 {
 	int point;
 
@@ -147,7 +147,7 @@ void	parse_file(char *filename, int *nb_tetri, t_position **positions)
 	/* *nb_tetri = 1; */
 }
 
-int		is_type_already_created(t_tetritype *types, t_position **positions,
+int		is_type_already_created(t_type *types, t_position **positions,
 								int nb_types)
 {
 	int index;
@@ -162,7 +162,7 @@ int		is_type_already_created(t_tetritype *types, t_position **positions,
 	return (-1);
 }
 
-void	generate_types(t_tetritype *types, t_position **positions,
+void	generate_types(t_type *types, t_position **positions,
 						t_tetri *tetriminos, int nb_tetri)
 {
 	int index;
@@ -196,7 +196,7 @@ int		main(int argc, char *argv[])
 {
 	t_tetri		tetriminos[MAX_TETRI];
 	int			nb_tetri;
-	t_tetritype types[MAX_TETRI];
+	t_type		types[MAX_TETRI];
 	t_position	*positions[26];
 
 	if (argc != 2)
