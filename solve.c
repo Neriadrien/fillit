@@ -91,6 +91,7 @@ void	solve_and_print_rec(int index, t_solve_data *p)
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual >>= 1;
+			tetri_actual &= ~(1UL << 63);
 			p->ltetri[index].pos.x++;
 		}
 		tetri_actual = p->ltetri[index].type->mask;
