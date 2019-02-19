@@ -14,7 +14,7 @@
 
 #include "solve.h"
 #include "utils.h"
-#include "libft.h"
+#include "libft/libft.h"
 #include "print.h"
 
 int		sqrt_aprox(int nb)

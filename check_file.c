@@ -39,7 +39,7 @@ static int		check_connections(char *tetri)
 
 	i = 0;
 	connections = 0;
-	while (tetri[i] && i < 20)
+	while (i < 20 && tetri[i])
 	{
 		if (tetri[i] == '#')
 		{

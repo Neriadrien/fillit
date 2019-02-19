@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include "print.h"
-#include "libft.h"
+#include "libft/libft.h"
 
 void	print_grid(char *grid[], int width)
 {

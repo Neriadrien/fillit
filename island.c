@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "libft.h"
+#include "solve.h"
+#include "libft/libft.h"
 
 int		island(int x, int y, t_solve_data *data, short *visited_cells)
 {
@@ -55,7 +56,7 @@ int		enougth_cells(int index, t_solve_data *data, int *dead_cells)
 							+ data->ltetris[index]->type->points[point].x,
 							data->ltetris[index]->pos.y
 							+ data->ltetris[index]->type->points[point].y,
-							grid, data->size, (short *)visited_cells);
+							data->grid, data->size, (short *)visited_cells);
 		if (island_size <= 3)
 		{
 			*dead_cells += island_size;
