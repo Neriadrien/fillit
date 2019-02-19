@@ -87,7 +87,7 @@ int		main(int argc, char *argv[])
 	t_tetri		tetriminos[MAX_TETRI];
 	int			nb_tetri;
 	t_type		types[MAX_TETRI];
-	t_points	positions[26];
+	t_points	positions[MAX_TETRI];
 
 	if (argc != 2)
 		print_usage(argv[0]);
