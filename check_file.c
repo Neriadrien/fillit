@@ -99,7 +99,7 @@ static int		get_next_tetri(int fd, t_points *grid)
 	{
 		buf[ret] = '\0';
 		if (check_tetri(buf) == 0 || check_connections(buf) == 0
-			|| ft_memchr(buf, '\0', BUF_SIZE))
+			|| ft_memchr(buf, '\0', ret))
 		{
 			ft_putendl_fd("wrong file", 2);
 			close(fd);
