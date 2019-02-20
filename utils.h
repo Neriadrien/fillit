@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:56:08 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/18 19:03:05 by hbode            ###   ########.fr       */
+/*   Updated: 2019/02/20 16:44:34 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ typedef struct	s_tetri
 }				t_tetri;
 
 typedef t_position	t_points[4];
-typedef short int	t_grid[16];
+typedef unsigned short int	t_grid[16];
 
 #endif
