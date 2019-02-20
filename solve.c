@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 19:03:16 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:16:25 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 void	start_position(t_position *pos, t_tetri *tetri, t_grid grid, unsigned long int **grid_for_cmp,
 						unsigned long int *tetri_actual)
 {
-	if (tetri->type->last_position)
+	if (tetri->type->last_position.x != 0
+		|| tetri->type->last_position.y != 0)
 	{
-		pos->y = tetri->type->last_position->y;
-		pos->x = tetri->type->last_position->x + 1;
+		pos->y = tetri->type->last_position.y;
+		pos->x = tetri->type->last_position.x + 1;
 		*tetri_actual = (unsigned long)tetri->type->mask >> pos->x;
 		*grid_for_cmp = (unsigned long*)(&grid[pos->y]);
 	}
@@ -80,9 +81,11 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 	int				max_height;
 	int				max_width;
 	unsigned long	mask;
+	t_position		prec_last_pos;
 
 	if (index == p->nb_tetri)
 		print_and_exit(p);
+	prec_last_pos = type->last_position;
 	max_height = p->size - type->height;
 	max_width = p->size - type->width;
 	mask = type->mask;
@@ -95,7 +98,7 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 			{
 				*grid_for_cmp ^= tetri_actual;
 				tetri->pos = pos;
-				type->last_position = &tetri->pos;
+				type->last_position = pos;
 				solve_and_print_rec(index + 1, &p->ltetri[index + 1],
 									p->ltetri[index + 1].type, p);
 				*grid_for_cmp ^= tetri_actual;
@@ -107,5 +110,5 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 		pos.x = 0;
 		grid_for_cmp = (unsigned long*)(&p->grid[++pos.y]);
 	}
-	type->last_position = NULL;
+	type->last_position = prec_last_pos;
 }

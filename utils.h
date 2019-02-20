@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:56:08 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 19:00:06 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:10:23 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct			s_type
 	int				height;
 	int				width;
 	unsigned long	mask;
-	t_position		*last_position;
+	t_position		last_position;
 }						t_type;
 
 typedef struct			s_tetri

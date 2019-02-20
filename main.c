@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 15:57:31 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/18 18:09:46 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:13:00 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	generate_type_values(t_type *type)
 	type->mask = 0;
 	type->height = 0;
 	type->width = 0;
-	type->last_position = NULL;
+	type->last_position = (t_position){.x = 0, .y = 0};
 	point = 0;
 	while (point < 4)
 	{
