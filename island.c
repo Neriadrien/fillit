@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:03:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/15 21:50:05 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 16:07:31 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int		enougth_cells(int index, t_solve_data *data, int *dead_cells)
 	point = 0;
 	while (point < 4)
 	{
-		island_size = island(data->ltetris[index]->pos.x
-							+ data->ltetris[index]->type->points[point].x,
-							data->ltetris[index]->pos.y
-							+ data->ltetris[index]->type->points[point].y,
+		island_size = island(data->ltetri[index].pos.x
+							+ data->ltetri[index].type->points[point].x,
+							data->ltetri[index].pos.y
+							+ data->ltetri[index].type->points[point].y,
 							data->grid, data->size, (short *)visited_cells);
 		if (island_size <= 3)
 		{
