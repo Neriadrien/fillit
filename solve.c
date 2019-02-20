@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 18:36:24 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:03:16 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,19 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 	unsigned long	*grid_for_cmp;
 	unsigned long	tetri_actual;
 	t_position		pos;
-	int				size;
-	int				height;
-	int				width;
+	int				max_height;
+	int				max_width;
 	unsigned long	mask;
 
 	if (index == p->nb_tetri)
 		print_and_exit(p);
-	size = p->size;
-	height = type->height;
-	width = type->width;
+	max_height = p->size - type->height;
+	max_width = p->size - type->width;
 	mask = type->mask;
 	start_position(&pos, tetri, p->grid, &grid_for_cmp, &tetri_actual);
-	while (pos.y <= size - height)
+	while (pos.y <= max_height)
 	{
-		while (pos.x <= size - width)
+		while (pos.x <= max_width)
 		{
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
