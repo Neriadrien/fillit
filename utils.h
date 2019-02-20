@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:56:08 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 18:01:06 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:00:06 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,29 @@
 # define MAX_WIDTH 13
 # define MAX_TETRI 26
 
-typedef struct	s_position
+typedef unsigned short	t_grid[16];
+
+typedef struct			s_position
 {
 	int	x;
 	int	y;
-}				t_position;
+}						t_position;
 
-typedef struct	s_type
+typedef t_position		t_points[4];
+
+typedef struct			s_type
 {
-	t_position	points[4];
-	int			height;
-	int			width;
+	t_points		points;
+	int				height;
+	int				width;
 	unsigned long	mask;
-	t_position	*last_position;
-}				t_type;
+	t_position		*last_position;
+}						t_type;
 
-typedef struct	s_tetri
+typedef struct			s_tetri
 {
 	t_type		*type;
 	t_position	pos;
-}				t_tetri;
-
-typedef t_position	t_points[4];
-typedef unsigned short int	t_grid[16];
+}						t_tetri;
 
 #endif
