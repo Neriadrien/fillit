@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 18:08:58 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 18:11:18 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 	int				size;
 	int				height;
 	int				width;
+	unsigned long	mask;
 
 	if (index == p->nb_tetri)
 		print_and_exit(p);
 	size = p->size;
 	height = type->height;
 	width = type->width;
+	mask = type->mask;
 	start_position(&pos, tetri, p->grid, &grid_for_cmp, &tetri_actual);
 	while (pos.y <= size - height)
 	{
@@ -103,7 +105,7 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 			tetri_actual = (unsigned long)tetri_actual >> 1;
 			pos.x++;
 		}
-		tetri_actual = type->mask;
+		tetri_actual = mask;
 		pos.x = 0;
 		grid_for_cmp = (unsigned long*)(&p->grid[++pos.y]);
 	}
