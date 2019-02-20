@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:45 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 18:11:18 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 18:36:24 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		sqrt_aprox(int nb)
 	{
 		if ((i * i) >= nb)
 			return (i);
-		i++;
+		++i;
 	}
 	return (i);
 }
@@ -42,7 +42,7 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 	while (data.size <= MAX_WIDTH)
 	{
 		solve_and_print_rec(0, &data.ltetri[0], data.ltetri[0].type, &data);
-		data.size++;
+		++data.size;
 	}
 	ft_putstr_fd("Error, max width of grid reached\n", 2);
 	exit(1);
@@ -96,14 +96,14 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 			if ((*grid_for_cmp & tetri_actual) == 0)
 			{
 				*grid_for_cmp ^= tetri_actual;
-				type->last_position = &pos;
 				tetri->pos = pos;
+				type->last_position = &tetri->pos;
 				solve_and_print_rec(index + 1, &p->ltetri[index + 1],
 									p->ltetri[index + 1].type, p);
 				*grid_for_cmp ^= tetri_actual;
 			}
 			tetri_actual = (unsigned long)tetri_actual >> 1;
-			pos.x++;
+			++pos.x;
 		}
 		tetri_actual = mask;
 		pos.x = 0;
