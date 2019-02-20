@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:56:08 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/20 16:44:34 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/20 18:01:06 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct	s_type
 	t_position	points[4];
 	int			height;
 	int			width;
-	long int	mask;
+	unsigned long	mask;
 	t_position	*last_position;
 }				t_type;
 
