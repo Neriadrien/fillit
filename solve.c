@@ -24,7 +24,7 @@ int		sqrt_aprox(int nb)
 	i = 1;
 	while (i < nb / i)
 		++i;
-	return (nb % i == 0 ? i : i + 1);
+	return (i);
 }
 
 void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
