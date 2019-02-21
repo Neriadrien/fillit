@@ -48,8 +48,8 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 ** TODO Error apres le exit
 */
 
-void	start_position(t_position *pos, t_tetri *tetri, t_grid grid, unsigned long int **grid_for_cmp,
-						unsigned long int *tetri_actual)
+void	start_position(t_position *pos, t_tetri *tetri, t_grid grid,
+					unsigned long **grid_for_cmp, unsigned long *tetri_actual)
 {
 	if (tetri->type->last_position.x != 0
 		|| tetri->type->last_position.y != 0)
