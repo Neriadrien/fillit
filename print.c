@@ -83,7 +83,3 @@ void	print_and_exit(t_solve_data *data)
 	free_printable_grid(printable_grid, data->size);
 	exit(0);
 }
-
-/*
-** TODO Free avant chaque exit
-*/
