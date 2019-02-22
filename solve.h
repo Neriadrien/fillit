@@ -33,8 +33,5 @@ typedef struct	s_solve_local_data
 }				t_solve_local_data;
 
 void			solve_and_print(t_tetri *tetriminos, int nb_tetri);
-void			print_tab_short_int(int id, short int*tab);
-void			solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
-									t_solve_data *data);
 
 #endif

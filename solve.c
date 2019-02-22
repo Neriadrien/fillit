@@ -27,27 +27,6 @@ int		sqrt_aprox(int nb)
 	return (i);
 }
 
-void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
-{
-	t_solve_data	data;
-
-	ft_memset(&data.grid, 0, sizeof(data.grid));
-	data.size = sqrt_aprox(nb_tetri * 4);
-	data.ltetri = tetriminos;
-	data.nb_tetri = nb_tetri;
-	while (data.size <= MAX_WIDTH)
-	{
-		solve_and_print_rec(0, &data.ltetri[0], data.ltetri[0].type, &data);
-		++data.size;
-	}
-	ft_putstr_fd("Error, max width of grid reached\n", 2);
-	exit(1);
-}
-
-/*
-** TODO Error apres le exit
-*/
-
 void	solve_set_values(t_tetri *tetri, t_type *type, t_solve_data *p,
 			t_solve_local_data *d)
 {
@@ -100,3 +79,24 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 	}
 	type->last_position = d.prec_last_pos;
 }
+
+void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
+{
+	t_solve_data	data;
+
+	ft_memset(&data.grid, 0, sizeof(data.grid));
+	data.size = sqrt_aprox(nb_tetri * 4);
+	data.ltetri = tetriminos;
+	data.nb_tetri = nb_tetri;
+	while (data.size <= MAX_WIDTH)
+	{
+		solve_and_print_rec(0, &data.ltetri[0], data.ltetri[0].type, &data);
+		++data.size;
+	}
+	ft_putstr_fd("Error, max width of grid reached\n", 2);
+	exit(1);
+}
+
+/*
+** TODO Error apres le exit
+*/
