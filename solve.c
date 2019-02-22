@@ -48,63 +48,55 @@ void	solve_and_print(t_tetri *tetriminos, int nb_tetri)
 ** TODO Error apres le exit
 */
 
-void	start_position(t_position *pos, t_tetri *tetri, t_grid grid,
-					unsigned long **grid_for_cmp, unsigned long *tetri_actual)
+void	solve_set_values(t_tetri *tetri, t_type *type, t_solve_data *p,
+			t_solve_local_data *d)
 {
-	if (tetri->type->last_position.x != 0
-		|| tetri->type->last_position.y != 0)
+	if (type->last_position.x != 0
+		|| type->last_position.y != 0)
 	{
-		pos->y = tetri->type->last_position.y;
-		pos->x = tetri->type->last_position.x + 1;
-		*tetri_actual = (unsigned long)tetri->type->mask >> pos->x;
-		*grid_for_cmp = (unsigned long*)(&grid[pos->y]);
+		tetri->pos.y = type->last_position.y;
+		tetri->pos.x = type->last_position.x + 1;
+		d->tetri_actual = (unsigned long)type->mask >> tetri->pos.x;
+		d->grid_for_cmp = (unsigned long*)&p->grid[tetri->pos.y];
 	}
 	else
 	{
-		pos->y = 0;
-		pos->x = 0;
-		*tetri_actual = tetri->type->mask;
-		*grid_for_cmp = (unsigned long*)grid;
+		tetri->pos.y = 0;
+		tetri->pos.x = 0;
+		d->tetri_actual = type->mask;
+		d->grid_for_cmp = (unsigned long*)p->grid;
 	}
+	d->prec_last_pos = type->last_position;
+	d->max_height = p->size - type->height;
+	d->max_width = p->size - type->width;
 }
 
 void	solve_and_print_rec(int index, t_tetri *tetri, t_type *type,
 							t_solve_data *p)
 {
-	unsigned long	*grid_for_cmp;
-	unsigned long	tetri_actual;
-	t_position		pos;
-	int				max_height;
-	int				max_width;
-	unsigned long	mask;
-	t_position		prec_last_pos;
+	t_solve_local_data d;
 
 	if (index == p->nb_tetri)
 		print_and_exit(p);
-	prec_last_pos = type->last_position;
-	max_height = p->size - type->height;
-	max_width = p->size - type->width;
-	mask = type->mask;
-	start_position(&pos, tetri, p->grid, &grid_for_cmp, &tetri_actual);
-	while (pos.y <= max_height)
+	solve_set_values(tetri, type, p, &d);
+	while (tetri->pos.y <= d.max_height)
 	{
-		while (pos.x <= max_width)
+		while (tetri->pos.x <= d.max_width)
 		{
-			if ((*grid_for_cmp & tetri_actual) == 0)
+			if ((*d.grid_for_cmp & d.tetri_actual) == 0)
 			{
-				*grid_for_cmp ^= tetri_actual;
-				tetri->pos = pos;
-				type->last_position = pos;
+				*d.grid_for_cmp ^= d.tetri_actual;
+				type->last_position = tetri->pos;
 				solve_and_print_rec(index + 1, &p->ltetri[index + 1],
 									p->ltetri[index + 1].type, p);
-				*grid_for_cmp ^= tetri_actual;
+				*d.grid_for_cmp ^= d.tetri_actual;
 			}
-			tetri_actual = (unsigned long)tetri_actual >> 1;
-			++pos.x;
+			d.tetri_actual = (unsigned long)d.tetri_actual >> 1;
+			++tetri->pos.x;
 		}
-		tetri_actual = mask;
-		pos.x = 0;
-		grid_for_cmp = (unsigned long*)(&p->grid[++pos.y]);
+		d.tetri_actual = type->mask;
+		tetri->pos.x = 0;
+		d.grid_for_cmp = (unsigned long*)(&p->grid[++tetri->pos.y]);
 	}
-	type->last_position = prec_last_pos;
+	type->last_position = d.prec_last_pos;
 }
