@@ -6,7 +6,7 @@
 /*   By: hthiessa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 15:00:41 by hthiessa          #+#    #+#             */
-/*   Updated: 2019/02/22 16:58:57 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/22 17:09:30 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	error(int fd)
 {
-	ft_putendl_fd("error", 1);
+	ft_putendl_fd("error", 2);
 	close(fd);
 	exit(1);
 }
