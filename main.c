@@ -33,6 +33,7 @@ int		main(int argc, char *argv[])
 		print_usage(argv[0]);
 	else
 	{
+		ft_bzero(types, MAX_TETRI * sizeof(t_type));
 		nb_tetri = parse(argv[1], positions);
 		generate_types(types, positions, tetriminos, nb_tetri);
 		solve_and_print(tetriminos, nb_tetri);
