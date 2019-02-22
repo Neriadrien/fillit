@@ -6,12 +6,13 @@
 /*   By: hbode <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 16:48:25 by hbode             #+#    #+#             */
-/*   Updated: 2019/02/18 18:24:23 by hthiessa         ###   ########.fr       */
+/*   Updated: 2019/02/22 16:59:42 by hthiessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include "utils.h"
+#include "print.h"
 
 static void		fill_grid(t_points *grid, int i, char *tetri)
 {
@@ -84,7 +85,7 @@ static int		check_tetri(char *tetri)
 	}
 	if ((i == 21 && points == 12 && diese == 4 && line == 5) ||
 		(i == 20 && points == 12 && diese == 4 && line == 4))
-		return (1);
+		return (i);
 	return (0);
 }
 
@@ -93,21 +94,21 @@ static int		get_next_tetri(int fd, t_points *grid)
 	int		ret;
 	char	buf[BUF_SIZE + 1];
 	int		i;
+	int		nb_char;
 
 	i = 0;
 	while ((ret = read(fd, buf, BUF_SIZE)))
 	{
 		buf[ret] = '\0';
-		if (ret < 0 || check_tetri(buf) == 0 || check_connections(buf) == 0
+		nb_char = check_tetri(buf);
+		if (ret < 0 || nb_char == 0 || check_connections(buf) == 0
 			|| ft_memchr(buf, '\0', ret) || i >= 26)
-		{
-			ft_putendl_fd("wrong file", 2);
-			close(fd);
-			exit(1);
-		}
+			error(fd);
 		fill_grid(grid, i, buf);
 		i++;
 	}
+	if (i == 0 || nb_char != 20)
+		error(fd);
 	return (i);
 }
 
@@ -118,10 +119,7 @@ int				parse(char *file, t_points *grid)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		ft_putendl_fd("wrong file", 2);
-		exit(1);
-	}
+		error(fd);
 	count = get_next_tetri(fd, grid);
 	set_all_left(grid, count);
 	close(fd);
