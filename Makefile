@@ -13,7 +13,7 @@
 NAME = fillit
 LIB = libft/libft.a
 
-SRC = main.c solve.c print.c check_file.c check_adjacent.c set_left.c #island.c
+SRC = main.c solve.c print.c check_file.c check_adjacent.c set_left.c type.c #island.c
 
 CFLAGS ?= -Werror -Wall -Wextra
 
