@@ -14,9 +14,9 @@
 # define ISLAND_H
 
 # include "utils.h"
+# include "solve.h"
 
-int	island(int x, int y, short *grid, int actual_width, short *visited_cells);
-int	enougth_cells(int index, t_tetri *tetri, short *grid, int nb_tetri,
-					int actual_width, int *dead_cells);
+int	enough_cells(t_tetri *tetri, t_solve_data *data, t_grid dead_cells,
+				 t_grid prec_dead_cells);
 
 #endif

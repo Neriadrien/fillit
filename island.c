@@ -14,7 +14,7 @@
 #include "solve.h"
 #include "libft/libft.h"
 
-int		island(int x, int y, t_solve_data *data, short *visited_cells)
+int		island(int x, int y, t_solve_data *data, t_grid visited_cells)
 {
 	int					nb_empty_cells;
 	static t_position	offsets[4] = {{.x = -1, .y = 0}, {.x = 1, .y = 0},
@@ -38,33 +38,34 @@ int		island(int x, int y, t_solve_data *data, short *visited_cells)
 	return (nb_empty_cells);
 }
 
-int		enougth_cells(int index, t_solve_data *data, int *dead_cells)
+int		enough_cells(t_tetri *tetri, t_solve_data *data, t_grid dead_cells,
+					  t_grid prec_dead_cells)
 {
 	int		island_size;
-	t_grid	visited_cells;
 	int		point;
-	int		required_free_cells;
+	t_grid	p_dead_cells;
+	int		prec_nb_dead_cells;
 
-	required_free_cells = (data->nb_tetri - (index + 1)) * 4;
-	if (required_free_cells - (index + 1) * 6 > 0)
-		return (1);
-	ft_memset(visited_cells, 0, sizeof(t_grid));
+	ft_memcpy(dead_cells, prec_dead_cells, sizeof(t_grid));
+	prec_nb_dead_cells = data->nb_dead_cells;
 	point = 0;
 	while (point < 4)
 	{
-		island_size = island(data->ltetri[index].pos.x
-							+ data->ltetri[index].type->points[point].x,
-							data->ltetri[index].pos.y
-							+ data->ltetri[index].type->points[point].y,
-							data->grid, data->size, (short *)visited_cells);
+		ft_memcpy(p_dead_cells, prec_dead_cells, sizeof(t_grid));
+		island_size = island(tetri->pos.x + tetri->type->points[point].x,
+			tetri->pos.y + tetri->type->points[point].y,
+			data, dead_cells);
 		if (island_size <= 3)
 		{
-			*dead_cells += island_size;
-			if ((data->size * data->size - *dead_cells) < required_free_cells)
+			prec_nb_dead_cells += island_size;
+			if ((data->size * data->size - prec_nb_dead_cells) < data->required_free_cells)
 				return (0);
 		}
-		point++;
+		else
+			ft_memcpy(dead_cells, p_dead_cells, sizeof(t_grid));
+		++point;
 	}
+	data->nb_dead_cells = prec_nb_dead_cells;
 	return (1);
 }
 
