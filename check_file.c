@@ -98,7 +98,7 @@ static int		get_next_tetri(int fd, t_points *grid)
 	while ((ret = read(fd, buf, BUF_SIZE)))
 	{
 		buf[ret] = '\0';
-		if (check_tetri(buf) == 0 || check_connections(buf) == 0
+		if (ret < 0 || check_tetri(buf) == 0 || check_connections(buf) == 0
 			|| ft_memchr(buf, '\0', ret) || i >= 26)
 		{
 			ft_putendl_fd("wrong file", 2);
@@ -117,6 +117,11 @@ int				parse(char *file, t_points *grid)
 	int		count;
 
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_putendl_fd("wrong file", 2);
+		exit(1);
+	}
 	count = get_next_tetri(fd, grid);
 	set_all_left(grid, count);
 	close(fd);
