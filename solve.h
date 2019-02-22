@@ -21,8 +21,6 @@ typedef struct	s_solve_data
 	t_grid	grid;
 	int		nb_tetri;
 	int		size;
-	int		required_free_cells;
-	int		nb_dead_cells;
 }				t_solve_data;
 
 typedef struct	s_solve_local_data
@@ -32,8 +30,6 @@ typedef struct	s_solve_local_data
 	int				max_height;
 	int				max_width;
 	t_position		prec_last_pos;
-	t_grid			dead_cells;
-	int				nb_dead_cells;
 }				t_solve_local_data;
 
 void			solve_and_print(t_tetri *tetriminos, int nb_tetri);
