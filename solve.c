@@ -33,7 +33,7 @@ void	solve_set_values(t_tetri *tetri, t_type *type, t_solve_data *p,
 		|| type->last_position.y != 0)
 	{
 		tetri->pos.y = type->last_position.y;
-		tetri->pos.x = type->last_position.x + 1;
+		tetri->pos.x = type->last_position.x + type->offset;
 		d->tetri_actual = (unsigned long)type->mask >> tetri->pos.x;
 		d->grid_for_cmp = (unsigned long*)&p->grid[tetri->pos.y];
 	}
@@ -48,7 +48,7 @@ void	solve_set_values(t_tetri *tetri, t_type *type, t_solve_data *p,
 	d->max_height = p->size - type->height;
 	d->max_width = p->size - type->width;
 
-	int tetri_restant = type->nb_tetri - tetri->index;
+	int tetri_restant = (type->nb_tetri - tetri->index) * type->offset;
 	d->max_height -= tetri_restant / p->size;
 	d->max_width_last = d->max_width - tetri_restant % p->size;
 }

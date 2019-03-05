@@ -34,6 +34,7 @@ typedef struct			s_type
 	unsigned long	mask;
 	t_position		last_position;
 	int				nb_tetri;
+	int				offset;
 }						t_type;
 
 typedef struct			s_tetri

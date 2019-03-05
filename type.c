@@ -36,6 +36,14 @@ void	generate_type_values(t_type *type)
 			1 << (sizeof(short int) * 8 - 1 - type->points[point].x);
 		point++;
 	}
+	int x = 1;
+	while (x <= 4)
+	{
+		if (!(type->mask & type->mask >> x))
+			break;
+		++x;
+	}
+	type->offset = x;
 }
 
 int		is_type_already_created(t_type *types, t_points *positions,
