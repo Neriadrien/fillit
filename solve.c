@@ -47,6 +47,10 @@ void	solve_set_values(t_tetri *tetri, t_type *type, t_solve_data *p,
 	d->prec_last_pos = type->last_position;
 	d->max_height = p->size - type->height;
 	d->max_width = p->size - type->width;
+
+	int tetri_restant = type->nb_tetri - tetri->index;
+	d->max_height -= tetri_restant / p->size;
+	d->max_width_last = d->max_width - tetri_restant % p->size;
 }
 
 void	solve_and_print_rec(int index, t_tetri *tetri, t_solve_data *p)
@@ -56,7 +60,7 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_solve_data *p)
 	if (index == p->nb_tetri)
 		print_and_exit(p);
 	solve_set_values(tetri, tetri->type, p, &d);
-	while (tetri->pos.y <= d.max_height)
+	while (tetri->pos.y < d.max_height)
 	{
 		while (tetri->pos.x <= d.max_width)
 		{
@@ -73,6 +77,18 @@ void	solve_and_print_rec(int index, t_tetri *tetri, t_solve_data *p)
 		d.tetri_actual = tetri->type->mask;
 		tetri->pos.x = 0;
 		d.grid_for_cmp = (unsigned long*)(&p->grid[++tetri->pos.y]);
+	}
+	while (tetri->pos.x <= d.max_width_last)
+	{
+		if (!(*d.grid_for_cmp & d.tetri_actual))
+		{
+			*d.grid_for_cmp ^= d.tetri_actual;
+			tetri->type->last_position = tetri->pos;
+			solve_and_print_rec(index + 1, &p->ltetri[index + 1], p);
+			*d.grid_for_cmp ^= d.tetri_actual;
+		}
+		d.tetri_actual = (unsigned long)d.tetri_actual >> 1;
+		++tetri->pos.x;
 	}
 	tetri->type->last_position = d.prec_last_pos;
 }

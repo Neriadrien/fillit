@@ -33,11 +33,13 @@ typedef struct			s_type
 	int				width;
 	unsigned long	mask;
 	t_position		last_position;
+	int				nb_tetri;
 }						t_type;
 
 typedef struct			s_tetri
 {
 	t_type		*type;
+	int			index;
 	t_position	pos;
 }						t_tetri;
 

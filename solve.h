@@ -29,6 +29,7 @@ typedef struct	s_solve_local_data
 	unsigned long	tetri_actual;
 	int				max_height;
 	int				max_width;
+	int				max_width_last;
 	t_position		prec_last_pos;
 }				t_solve_local_data;
 

@@ -26,6 +26,7 @@ void	generate_type_values(t_type *type)
 	type->height = 0;
 	type->width = 0;
 	type->last_position = (t_position){.x = 0, .y = 0};
+	type->nb_tetri = 1;
 	point = 0;
 	while (point < 4)
 	{
@@ -67,9 +68,14 @@ void	generate_types(t_type *types, t_points *positions,
 			ft_memcpy(types[index].points, positions[index], sizeof(t_points));
 			generate_type_values(&types[index]);
 			tetriminos[index].type = &types[index];
+			tetriminos[index].index = types[index].nb_tetri;
 		}
 		else
+		{
 			tetriminos[index].type = &types[type_index];
+			types[type_index].nb_tetri++;
+			tetriminos[index].index = types[type_index].nb_tetri;
+		}
 		index++;
 	}
 }
