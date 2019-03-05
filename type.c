@@ -25,7 +25,7 @@ void	generate_type_values(t_type *type)
 	type->mask = 0;
 	type->height = 0;
 	type->width = 0;
-	type->last_position = (t_position){.x = 0, .y = 0};
+	type->last_position = (t_position){.x = -1, .y = -1};
 	type->nb_tetri = 1;
 	point = 0;
 	while (point < 4)
